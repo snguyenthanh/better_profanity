@@ -1,5 +1,5 @@
-## better_profanity
-___
+better_profanity
+---
 
 A Python library to clean swear words in strings.
 
