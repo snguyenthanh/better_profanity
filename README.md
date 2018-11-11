@@ -1,7 +1,11 @@
 better_profanity
 ---
+*A Python library to clean swear words in strings.*
 
-A Python library to clean swear words in strings.
+[![release](https://img.shields.io/badge/release-v0.1-blue.svg)](https://github.com/snguyenthanh/better_profanity/releases/tag/v0.1)
+![python](https://img.shields.io/badge/python-3.6%20%7C%203.7-blue.svg)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://github.com/snguyenthanh/better_profanity/blob/master/LICENSE)
+
 
 Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben Friedland](https://github.com/ben174), this library only supports *English* language and is much faster than the original one, by using string comparison instead of regex.
 
