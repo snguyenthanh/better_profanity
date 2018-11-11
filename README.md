@@ -43,7 +43,7 @@ from better_profanity import profanity
 if __name__ == "__main__":
     dirty_text = "That l3sbi4n did a very good H4ndjob."
 
-    censored_text = profanity.censor(dirty_text, '****')
+    profanity.contains_profanity(dirty_text) # True
 ```
 
 #### 4. Censor swear words with a custom wordlist
