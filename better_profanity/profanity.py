@@ -158,8 +158,3 @@ def censor(text: str, censor_char: str='*') -> str:
     if not CENSOR_WORDSET:
         load_censor_words()
     return hide_swear_words(text, censor_char)
-
-if __name__ == "__main__":
-    #bad_text = "That wh0re gave m3 a very good H4nd j0b, dude. You gotta check."
-    censored_text = censor(bad_text)
-    print(censored_text)
