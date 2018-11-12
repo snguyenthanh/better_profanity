@@ -1,4 +1,5 @@
 import setuptools
+
 from better_profanity import __version__
 
 with open("README.md", encoding='utf-8') as fh:
