@@ -7,10 +7,15 @@ better_profanity
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://github.com/snguyenthanh/better_profanity/blob/master/LICENSE)
 
 
-Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben Friedland](https://github.com/ben174), this library only supports *English* language and is much faster than the original one, by using string comparison instead of regex.
+Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben Friedland](https://github.com/ben174), this library only supports **English** language and is much faster than the original one, by using string comparison instead of regex.
 
 ## Requirements
 To make use of Python static tying, this package only works with `Python 3.6+`.
+
+## Note for non-English words
+Due to the library's algorithm, it (now) only supports [ASCII](https://docs.python.org/3/library/string.html#string.ascii_letters) characters.
+
+Words, such as `аушвиц and หญิงชาติชั่ว`, will fails to be checked.
 
 ## Usage
 By default, on the first `.censor()` call, `profanity` initializes a set of words, from [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt), to be used to compare against the input texts. This set of words will be stored in memory (~5MB+).
