@@ -2,6 +2,7 @@ better_profanity
 ---
 *A Python library to clean swear words in strings.*
 
+[![Build Status](https://travis-ci.com/snguyenthanh/better_profanity.svg?branch=master)](https://travis-ci.com/snguyenthanh/better_profanity)
 [![release](https://img.shields.io/badge/release-v0.1-blue.svg)](https://github.com/snguyenthanh/better_profanity/releases/tag/v0.1)
 ![python](https://img.shields.io/badge/python-3.6%20%7C%203.7-blue.svg)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://github.com/snguyenthanh/better_profanity/blob/master/LICENSE)
