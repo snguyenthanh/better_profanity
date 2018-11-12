@@ -2,5 +2,5 @@ language: python
 python:
   - "3.6"
 
-  script:
+script:
   - python tests.py
