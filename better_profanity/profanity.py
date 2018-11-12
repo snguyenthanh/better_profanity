@@ -1,8 +1,8 @@
 from itertools import product
 from typing import Set, List
-from string import ascii_lowercase, digits
-import os.path
-import sys
+from .utils import get_start_index_of_next_word, get_next_words, \
+    get_complete_path_of_file, ALLOWED_CHARACTERS
+
 
 ## GLOBAL VARIABLES ##
 CENSOR_WORDSET = set()
@@ -17,22 +17,11 @@ CHARS_MAPPING = {
     's': ('s', '$'),
 }
 
-ALLOWED_CHARACTERS = set(ascii_lowercase)
-ALLOWED_CHARACTERS.update(set(digits))
-ALLOWED_CHARACTERS.update(
-    set(['@', '!', '$', '^', '*', '&', '\"', '\''])
-)
-
 # The max number of additional words forming a swear word. For example:
 # - hand job = 1
 # - this is a fish = 3
 MAX_NUMBER_COMBINATIONS = 1
 
-
-def get_complete_path_of_file(filename: str) -> str:
-    """Join the path of the current directory with the input filename."""
-    root = os.path.abspath(os.path.dirname(__file__))
-    return os.path.join(root, filename)
 
 def load_censor_words(custom_words: List=[]):
     """Generate a set of words that need to be censored."""
@@ -74,7 +63,7 @@ def read_wordlist() -> Set[str]:
     wordlist_path = get_complete_path_of_file(wordlist_filename)
     try:
         with open(wordlist_path, encoding='utf-8') as wordlist_file:
-            # All CENSOR_WORDSET must be in lowercase
+            # All words must be in lowercase
             for row in iter(wordlist_file):
                 row = row.strip()
                 if row != "":
@@ -90,36 +79,23 @@ def contains_profanity(text: str) -> bool:
     """Return True if  the input text has any swear words."""
     return text != censor(text)
 
-def get_next_words(text:str, start_idx: int, num_of_next_words: int=1) -> str:
-    # Find the starting index of the next word
-    start_idx_of_next_word = len(text)
-    for index in iter(range(start_idx, len(text))):
-        if text[index] not in ALLOWED_CHARACTERS:
-            continue
-        start_idx_of_next_word = index
-        break
+def update_next_words_indices(text: str, words_indices: List[tuple], start_idx: int) -> List[tuple]:
+    if not words_indices:
+        words_indices = get_next_words(text, start_idx+1, MAX_NUMBER_COMBINATIONS)
+    else:
+        words_indices.pop(0)
+        if words_indices and words_indices[-1][0] != "":
+            words_indices += get_next_words(text, words_indices[-1][1], 1)
 
-    # Return an empty string if there are no other words
-    if start_idx_of_next_word == len(text) - 1:
-        return [("", start_idx_of_next_word)]
+    return words_indices
 
-    cur_word = ""
-    index = start_idx_of_next_word
-    for index in iter(range(start_idx_of_next_word, len(text))):
-        char = text[index].lower()
-        if char in ALLOWED_CHARACTERS:
-            cur_word += char
-            continue
-        break
-
-    # Combine the following words into a list
-    words =  [(cur_word, index)]
-    if num_of_next_words > 1:
-        words.extend(
-             get_next_words(text, index, num_of_next_words - 1)
-        )
-
-    return words
+def any_next_words_form_swear_word(cur_word: str, text: str, words_indices: List[tuple], censor_words: Set[str]):
+    full_word = cur_word.lower()
+    for next_word, end_index in iter(words_indices):
+        full_word = "%s %s" % (full_word, next_word.lower())
+        if full_word in CENSOR_WORDSET:
+            return True, end_index
+    return False, -1
 
 def hide_swear_words(text: str, censor_char: str) -> str:
     """Replace the swear words with censor characters."""
@@ -127,27 +103,34 @@ def hide_swear_words(text: str, censor_char: str) -> str:
     cur_word = ""
     skip_index = -1
     skip_cur_char = False
+    next_words_indices = []
+    start_idx_of_next_word = get_start_index_of_next_word(text, 0)
+
+    # If there are no words in the text, return the raw text without parsing
+    if start_idx_of_next_word >= len(text) - 1:
+        return text
+
+    # Left strip the text, to avoid inaccurate parsing
+    if start_idx_of_next_word > 0:
+        censored_text = text[:start_idx_of_next_word]
+        text = text.lstrip()
 
     # Splitting each word in the text to compare with censored words
     for index, char in iter(enumerate(text)):
-        if index <= skip_index:
+        if index < skip_index:
             continue
-
-        if char.lower() in ALLOWED_CHARACTERS:
+        if char in ALLOWED_CHARACTERS:
             cur_word += char
             continue
 
         # Iterate the next words combined with the current one
         # to check if it forms a swear word
-        next_words_indices = get_next_words(text, index+1, MAX_NUMBER_COMBINATIONS)
-        full_next_word = cur_word.lower()
-        for next_word, end_index in iter(next_words_indices):
-            full_next_word = "%s %s" % (full_next_word, next_word.lower())
-            if full_next_word in CENSOR_WORDSET:
-                cur_word = get_replacement_for_swear_word(censor_char)
-                skip_index = end_index
-                char = ""
-                break
+        next_words_indices = update_next_words_indices(text, next_words_indices, index)
+        contains_swear_word, end_index = any_next_words_form_swear_word(cur_word, text, next_words_indices, CENSOR_WORDSET)
+        if contains_swear_word:
+             cur_word = get_replacement_for_swear_word(censor_char)
+             skip_index = end_index
+             char = ""
 
         # If the current a swear word
         if cur_word.lower() in CENSOR_WORDSET:
@@ -157,6 +140,7 @@ def hide_swear_words(text: str, censor_char: str) -> str:
         censored_text += char
         cur_word = ""
 
+    # Final check
     if cur_word != "" and skip_index < len(text):
         if cur_word.lower() in CENSOR_WORDSET:
             cur_word = get_replacement_for_swear_word(censor_char)
@@ -176,7 +160,6 @@ def censor(text: str, censor_char: str='*') -> str:
     return hide_swear_words(text, censor_char)
 
 if __name__ == "__main__":
-    #bad_text = "That wh0re gave m3 a very good H4nd j0b, dude. You gotta check"
-    bad_text = "Corki"
+    #bad_text = "That wh0re gave m3 a very good H4nd j0b, dude. You gotta check."
     censored_text = censor(bad_text)
     print(censored_text)

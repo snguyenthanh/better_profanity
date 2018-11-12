@@ -13,9 +13,9 @@ class ProfanityTest(unittest.TestCase):
                         If you poison us do we not die?
                         And if you wrong us shall we not revenge?"""
         censored_text = profanity.censor(innocent_text)
-        self.assertTrue(innocent_text == censored_text)
+        self.assertEqual(innocent_text, censored_text)
 
-    def test_censorship(self):
+    def test_censorship_1(self):
         bad_text = "Dude, I hate shit. Fuck bullshit."
         censored_text = profanity.censor(bad_text)
         # make sure it finds both instances
@@ -25,13 +25,39 @@ class ProfanityTest(unittest.TestCase):
         # make sure some of the original text is still there
         self.assertTrue("Dude" in censored_text)
 
+    def test_censorship_2(self):
+        bad_text = "That wh0re gave m3 a very good H4nd j0b, dude. You gotta check."
+        censored_text = "That **** gave m3 a very good ****, dude. You gotta check."
+
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+    def test_censorship_with_starting_swear_word(self):
+        bad_text = "  wh0re gave m3 a very good H@nD j0b."
+        censored_text = "  **** gave m3 a very good ****."
+
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+    def test_censorship_with_ending_swear_word(self):
+        bad_text = "That wh0re gave m3 a very good H@nD j0b."
+        censored_text = "That **** gave m3 a very good ****."
+
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+    def test_censorship_empty_text(self):
+        empty_text = ""
+        self.assertEqual(profanity.censor(empty_text), empty_text)
+
     def test_censorship_for_2_words(self):
         bad_text = "That wh0re gave m3 a very good H4nd j0b"
         censored_text = profanity.censor(bad_text)
 
         self.assertFalse("H4nd j0b" in censored_text)
         self.assertTrue("m3" in censored_text)
-        
+
+    def test_censorship_for_clean_text(self):
+        clean_text = "Hi there"
+        self.assertEqual(profanity.censor(clean_text), clean_text)
+
     def test_custom_wordlist(self):
         custom_badwords = ['happy', 'jolly', 'merry']
         profanity.load_censor_words(custom_badwords)
