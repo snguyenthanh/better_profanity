@@ -1,8 +1,9 @@
 from itertools import product
 from typing import Set, List
-from .utils import get_start_index_of_next_word, get_next_words, \
-    get_complete_path_of_file, ALLOWED_CHARACTERS, any_next_words_form_swear_word
 
+from .utils import (ALLOWED_CHARACTERS, get_complete_path_of_file,
+                    get_next_words, get_start_index_of_next_word,
+                    load_unicode_symbols, any_next_words_form_swear_word)
 
 ## GLOBAL VARIABLES ##
 CENSOR_WORDSET = set()
@@ -29,7 +30,7 @@ def count_non_allowed_characters(word: str) -> int:
             count += 1
     return count
 
-def load_censor_words(custom_words: List=[]):
+def load_censor_words(custom_words: List = None):
     """Generate a set of words that need to be censored."""
     global CENSOR_WORDSET
     global MAX_NUMBER_COMBINATIONS
@@ -46,21 +47,20 @@ def load_censor_words(custom_words: List=[]):
         if num_of_non_allowed_chars > MAX_NUMBER_COMBINATIONS:
             MAX_NUMBER_COMBINATIONS = num_of_non_allowed_chars
 
-        all_censor_words.update(
-            set(generate_patterns_from_word(word))
-        )
+        all_censor_words.update(set(generate_patterns_from_word(word)))
 
     # The default wordlist takes ~5MB+ of memory
     CENSOR_WORDSET = all_censor_words
 
+
 def generate_patterns_from_word(word: str) -> Set[str]:
     """Return all patterns can be generated from the word."""
     combos = [
-        (char,) if char not in CHARS_MAPPING
-        else CHARS_MAPPING[char]
+        (char,) if char not in CHARS_MAPPING else CHARS_MAPPING[char]
         for char in iter(word)
     ]
     return (''.join(pattern) for pattern in product(*combos))
+
 
 def read_wordlist() -> Set[str]:
     """Return words from file `profanity_wordlist.txt`."""
@@ -78,14 +78,19 @@ def read_wordlist() -> Set[str]:
         print('Unable to find profanity_wordlist.txt')
         pass
 
+
 def get_replacement_for_swear_word(censor_char: str) -> str:
     return censor_char * 4
+
 
 def contains_profanity(text: str) -> bool:
     """Return True if  the input text has any swear words."""
     return text != censor(text)
 
-def update_next_words_indices(text: str, words_indices: List[tuple], start_idx: int) -> List[tuple]:
+  
+def update_next_words_indices(
+    text: str, words_indices: List[tuple], start_idx: int
+) -> List[tuple]:
     """Return a list of next words_indices after the input index."""
     if not words_indices:
         words_indices = get_next_words(text, start_idx, MAX_NUMBER_COMBINATIONS)
@@ -93,9 +98,9 @@ def update_next_words_indices(text: str, words_indices: List[tuple], start_idx: 
         del words_indices[:2]
         if words_indices and words_indices[-1][0] != "":
             words_indices += get_next_words(text, words_indices[-1][1], 1)
-
     return words_indices
 
+  
 def hide_swear_words(text: str, censor_char: str) -> str:
     """Replace the swear words with censor characters."""
     censored_text = ""
@@ -133,7 +138,9 @@ def hide_swear_words(text: str, censor_char: str) -> str:
         # Iterate the next words combined with the current one
         # to check if it forms a swear word
         next_words_indices = update_next_words_indices(text, next_words_indices, index)
-        contains_swear_word, end_index = any_next_words_form_swear_word(cur_word, text, next_words_indices, CENSOR_WORDSET)
+        contains_swear_word, end_index = any_next_words_form_swear_word(
+            cur_word, text, next_words_indices, CENSOR_WORDSET
+        )
         if contains_swear_word:
             cur_word = get_replacement_for_swear_word(censor_char)
             skip_index = end_index
@@ -155,7 +162,8 @@ def hide_swear_words(text: str, censor_char: str) -> str:
         censored_text += cur_word
     return censored_text
 
-def censor(text: str, censor_char: str='*') -> str:
+
+def censor(text: str, censor_char: str = '*') -> str:
     """Replace the swear words in the text with `censor_char`."""
 
     if not isinstance(text, str):

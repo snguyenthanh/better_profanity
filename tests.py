@@ -1,4 +1,5 @@
 import unittest
+
 from better_profanity import profanity
 
 
@@ -65,11 +66,39 @@ class ProfanityTest(unittest.TestCase):
         self.assertFalse(profanity.contains_profanity("Fuck you!"))
         # make sure it finds profanity in a sentence containing custom_badwords
         self.assertTrue(profanity.contains_profanity("Have a merry day! :)"))
-
+        
     def test_censorship_without_spaces(self):
         bad_text = "...penis...hello_cat_vagina,,,,qew"
         censored_text = "...****...hello_cat_****,,,,qew"
         self.assertEqual(profanity.censor(bad_text), censored_text)
+        
+    def test_unicode_censorship(self):
+        bad_text = "соседский мальчик сказал хайль и я опешил."
+        censored_text = "соседский мальчик сказал **** и я опешил."
+        profanity.load_unicode_symbols()
+        profanity.load_censor_words(["хайль"])
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+        
+    def test_unicode_censorship_2(self):
+        bad_text = "Эффекти́вного противоя́дия от я́да фу́гу не существу́ет до сих пор"
+        censored_text = "Эффекти́вного **** от я́да фу́гу не существу́ет до сих пор"
+        profanity.load_unicode_symbols()
+        profanity.load_censor_words(["противоя́дия"])
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+    # def test_unicode_censorship_3(self):
+    #     bad_text = "Эффекти́вного противоя́дия от я́да фу́гу не существу́ет до сих пор. Но э́то не остана́вливает люде́й от употребле́ния блюд из ры́бы фу́гу."
+    #     censored_text = "Эффекти́вного **** от я́да фу́гу не существу́ет до сих пор. Но э́то не остана́вливает люде́й от **** блюд из ры́бы фу́гу."
+    #     profanity.load_unicode_symbols()
+    #     profanity.load_censor_words(["противоя́дия", "употребле́ния"])
+    #     self.assertEqual(profanity.censor(bad_text), censored_text)
+    # 
+    # def test_unicode_censorship_4(self):
+    #     bad_text = "...противоя́ди...hello_cat_употребле́ния,,,,qew"
+    #     censored_text = "...****...hello_cat_****,,,,qew"
+    #     profanity.load_unicode_symbols()
+    #     profanity.load_censor_words(["противоя́дия", "употребле́ния"])
+    #     self.assertEqual(profanity.censor(bad_text), censored_text)
 
         
 if __name__ == "__main__":
