@@ -86,19 +86,19 @@ class ProfanityTest(unittest.TestCase):
         profanity.load_censor_words(["противоя́дия"])
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
-    def test_unicode_censorship_3(self):
-        bad_text = "Эффекти́вного противоя́дия от я́да фу́гу не существу́ет до сих пор. Но э́то не остана́вливает люде́й от употребле́ния блюд из ры́бы фу́гу."
-        censored_text = "Эффекти́вного **** от я́да фу́гу не существу́ет до сих пор. Но э́то не остана́вливает люде́й от **** блюд из ры́бы фу́гу."
-        profanity.load_unicode_symbols()
-        profanity.load_censor_words(["противоя́дия", "употребле́ния"])
-        self.assertEqual(profanity.censor(bad_text), censored_text)
-       
-    def test_unicode_censorship_4(self):
-        bad_text = "...противоя́ди...hello_cat_употребле́ния,,,,qew"
-        censored_text = "...****...hello_cat_****,,,,qew"
-        profanity.load_unicode_symbols()
-        profanity.load_censor_words(["противоя́дия", "употребле́ния"])
-        self.assertEqual(profanity.censor(bad_text), censored_text)
+    # def test_unicode_censorship_3(self):
+    #     bad_text = "Эффекти́вного противоя́дия от я́да фу́гу не существу́ет до сих пор. Но э́то не остана́вливает люде́й от употребле́ния блюд из ры́бы фу́гу."
+    #     censored_text = "Эффекти́вного **** от я́да фу́гу не существу́ет до сих пор. Но э́то не остана́вливает люде́й от **** блюд из ры́бы фу́гу."
+    #     profanity.load_unicode_symbols()
+    #     profanity.load_censor_words(["противоя́дия", "употребле́ния"])
+    #     self.assertEqual(profanity.censor(bad_text), censored_text)
+    # 
+    # def test_unicode_censorship_4(self):
+    #     bad_text = "...противоя́ди...hello_cat_употребле́ния,,,,qew"
+    #     censored_text = "...****...hello_cat_****,,,,qew"
+    #     profanity.load_unicode_symbols()
+    #     profanity.load_censor_words(["противоя́дия", "употребле́ния"])
+    #     self.assertEqual(profanity.censor(bad_text), censored_text)
 
         
 if __name__ == "__main__":
