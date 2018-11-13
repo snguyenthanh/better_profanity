@@ -66,6 +66,11 @@ class ProfanityTest(unittest.TestCase):
         # make sure it finds profanity in a sentence containing custom_badwords
         self.assertTrue(profanity.contains_profanity("Have a merry day! :)"))
 
+    def test_censorship_without_spaces(self):
+        bad_text = "...penis...hello_cat_vagina,,,,qew"
+        censored_text = "...****...hello_cat_****,,,,qew"
+        self.assertEqual(profanity.censor(bad_text), censored_text)
 
+        
 if __name__ == "__main__":
     unittest.main()
