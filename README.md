@@ -28,7 +28,7 @@ $ pip install better-profanity==0.3b0
 ## Unicode characters
 A huge thanks to [@Derfirm](https://github.com/Derfirm) for adding support for Unicode characters.
 
-Currently, the Unicode support is only available in [*beta* release `0.3-beta.0`](./README.md#2-beta-version).
+Currently, the Unicode support is only available in [*beta* release `0.3-beta.0`](https://pypi.org/project/better-profanity/0.3b0/).
 
 For release `0.3-beta.0`, only Unicode characters from categories `Ll`, `Lu`, `Mc` and `Mn` are added. More on Unicode categories can be found [here][unicode category link].
 
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     # You **** of ****.
 ```
 
-### 2. Censor doesn't care about word dividers
+### 2. Censor doesn't care about word dividers (*beta*)
 The function `.censor()` also hide words separated not just by an empty space ` ` but also other dividers, such as `_`, `,` and `.`. Except for `@, $, ^, *, &, \, \`.
 
 ```
