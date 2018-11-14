@@ -13,8 +13,22 @@ Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben F
 ## Requirements
 To make use of Python static tying, this package only works with `Python 3.6+`.
 
+## Installation
+
+### 1. *Stable* version:
+```
+$ pip install better_profanity
+```
+
+### 2. *Beta* version
+```
+$ pip install better-profanity==0.3b0
+```
+
 ## Unicode characters
 A huge thanks to [@Derfirm](https://github.com/Derfirm) for adding support for Unicode characters.
+
+Currently, the Unicode support is only available in *beta* release `0.3-beta.0`.
 
 For release `0.3-beta.0`, only Unicode characters from categories `Ll`, `Lu`, `Mc` and `Mn` are added. More on Unicode categories can be found [here][unicode category link].
 
@@ -95,7 +109,7 @@ if __name__ == "__main__":
     # Have a **** day! :)
 ```
 
-### 6. Censor Unicode characters
+### 6. Censor Unicode characters (*beta*)
 
 ```
 from better_profanity import profanity
