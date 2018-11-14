@@ -1,5 +1,8 @@
+import sys
+import unicodedata
 import json
 import os.path
+from collections import defaultdict
 from string import ascii_letters, digits
 from typing import List, Set, Tuple
 
@@ -7,7 +10,7 @@ from typing import List, Set, Tuple
 ## GLOBAL VARIABLES ##
 ALLOWED_CHARACTERS = set(ascii_letters)
 ALLOWED_CHARACTERS.update(set(digits))
-ALLOWED_CHARACTERS.update({'@', '!', '$', '^', '*', '&', '\"', '\''})
+ALLOWED_CHARACTERS.update({'@', '$', '^', '*', '&', '\"', '\''})
 
 
 def get_complete_path_of_file(filename: str) -> str:
@@ -17,6 +20,9 @@ def get_complete_path_of_file(filename: str) -> str:
 
 
 def load_unicode_symbols(unicode_symbols_json: str = "alphabetic_unicode.json"):
+    """Load the unicode characters from categories Ll, Lu, Mc, Mn into `ALLOWED_CHARACTERS`."""
+    # More about Unicode categories can be found at
+    # https://en.wikipedia.org/wiki/Template:General_Category_(Unicode)
     with open(get_complete_path_of_file(unicode_symbols_json), "r") as json_file:
         ALLOWED_CHARACTERS.update(json.load(json_file))
 
@@ -46,7 +52,7 @@ def get_next_word_and_end_index(text: str, start_idx: int):
 
 def any_next_words_form_swear_word(
     cur_word: str, text: str, words_indices: List[tuple], censor_words: Set[str]
-):
+) -> Tuple[bool, int]:
     """Return True, and the end index of the word in the text, if any word formed in words_indices is in `CENSOR_WORDSET`."""
     full_word = cur_word.lower()
     full_word_with_separators = cur_word.lower()
@@ -64,12 +70,13 @@ def any_next_words_form_swear_word(
             return True, end_index
     return False, -1
 
+
 def get_next_words(text: str, start_idx: int, num_of_next_words: int = 1) -> List[Tuple[str, int]]:
     """
     Return a list of pairs of next words and next words included with separators, combined with their end indices.
     For example: Word `hand_job` has next words pairs: `job`, `_job`.
     """
-    
+
     # Find the starting index of the next word
     start_idx_of_next_word = get_start_index_of_next_word(text, start_idx)
 

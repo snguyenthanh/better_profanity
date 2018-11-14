@@ -1,6 +1,5 @@
 from itertools import product
 from typing import Set, List
-
 from .utils import (ALLOWED_CHARACTERS, get_complete_path_of_file,
                     get_next_words, get_start_index_of_next_word,
                     load_unicode_symbols, any_next_words_form_swear_word)
@@ -9,7 +8,7 @@ from .utils import (ALLOWED_CHARACTERS, get_complete_path_of_file,
 CENSOR_WORDSET = set()
 CHARS_MAPPING = {
     'a': ('a', '@', '*', '4', '&'),
-    'i': ('i', '*', 'l', '!', '1'),
+    'i': ('i', '*', 'l', '1'),
     'o': ('o', '*', '0', '@'),
     'u': ('u', '*', 'v'),
     'v': ('v', '*', 'u'),
@@ -18,10 +17,14 @@ CHARS_MAPPING = {
     's': ('s', '$'),
 }
 
+# Pre-load the unicode characters
+load_unicode_symbols()
+
 # The max number of additional words forming a swear word. For example:
 # - hand job = 1
 # - this is a fish = 3
 MAX_NUMBER_COMBINATIONS = 1
+
 
 def count_non_allowed_characters(word: str) -> int:
     count = 0
@@ -43,6 +46,8 @@ def load_censor_words(custom_words: List = None):
 
     all_censor_words = set()
     for word in temp_words:
+        # All words in CENSOR_WORDSET must be in lowercase
+        word = word.lower()
         num_of_non_allowed_chars = count_non_allowed_characters(word)
         if num_of_non_allowed_chars > MAX_NUMBER_COMBINATIONS:
             MAX_NUMBER_COMBINATIONS = num_of_non_allowed_chars
@@ -64,12 +69,10 @@ def generate_patterns_from_word(word: str) -> Set[str]:
 
 def read_wordlist() -> Set[str]:
     """Return words from file `profanity_wordlist.txt`."""
-
     wordlist_filename = 'profanity_wordlist.txt'
     wordlist_path = get_complete_path_of_file(wordlist_filename)
     try:
         with open(wordlist_path, encoding='utf-8') as wordlist_file:
-            # All words must be in lowercase
             for row in iter(wordlist_file):
                 row = row.strip()
                 if row != "":
@@ -87,7 +90,7 @@ def contains_profanity(text: str) -> bool:
     """Return True if  the input text has any swear words."""
     return text != censor(text)
 
-  
+
 def update_next_words_indices(
     text: str, words_indices: List[tuple], start_idx: int
 ) -> List[tuple]:
@@ -100,7 +103,7 @@ def update_next_words_indices(
             words_indices += get_next_words(text, words_indices[-1][1], 1)
     return words_indices
 
-  
+
 def hide_swear_words(text: str, censor_char: str) -> str:
     """Replace the swear words with censor characters."""
     censored_text = ""
