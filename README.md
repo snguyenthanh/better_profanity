@@ -52,7 +52,7 @@ if __name__ == "__main__":
 ```
 
 ### 2. Censor doesn't care about word dividers (*beta*)
-The function `.censor()` also hide words separated not just by an empty space ` ` but also other dividers, such as `_`, `,` and `.`. Except for `@, $, ^, *, &, \, \`.
+The function `.censor()` also hide words separated not just by an empty space ` ` but also other dividers, such as `_`, `,` and `.`. Except for `@, $, ^, *, &, ", '`.
 
 ```
 from better_profanity import profanity
