@@ -11,7 +11,7 @@ better_profanity
 Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben Friedland](https://github.com/ben174), this library is much faster than the original one, by using string comparison instead of regex.
 
 ## Requirements
-To make use of Python static tying, this package only works with `Python 3.6+`.
+To make use of Python static typing, this package only works with `Python 3.6+`.
 
 ## Installation
 
