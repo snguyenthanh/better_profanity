@@ -10,7 +10,7 @@ from typing import List, Set, Tuple
 ## GLOBAL VARIABLES ##
 ALLOWED_CHARACTERS = set(ascii_letters)
 ALLOWED_CHARACTERS.update(set(digits))
-ALLOWED_CHARACTERS.update({'@', '$', '*', '&', '\"', '\''})
+ALLOWED_CHARACTERS.update({'@', '$', '*', '\"', '\''})
 
 
 def get_complete_path_of_file(filename: str) -> str:

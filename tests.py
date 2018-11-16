@@ -70,7 +70,7 @@ class ProfanityTest(unittest.TestCase):
         self.assertTrue(profanity.contains_profanity("Have a merry day! :)"))
 
     def test_censorship_without_spaces(self):
-        bad_text = "...penis...hello_cat_vagina,,,,qew"
+        bad_text = "...pen1s...hello_cat_vagina,,,,qew"
         censored_text = "...****...hello_cat_****,,,,qew"
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
@@ -119,9 +119,9 @@ class ProfanityUnicodeTestVietnamese(unittest.TestCase):
         profanity.load_censor_words()
 
     def test_unicode_vietnamese_1(self):
-        bad_text = "Chào con cặc.Thằng lồn."
-        censored_text = "Chào con ****.Thằng ****."
-        profanity.load_censor_words(["cặc", "lồn"])
+        bad_text = "Đây là 1 câu nói bậy."
+        censored_text = "Đây là 1 **** nói ****."
+        profanity.load_censor_words(["câu", "bậy"])
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
     def test_unicode_vietnamese_2(self):

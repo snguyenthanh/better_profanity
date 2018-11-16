@@ -7,7 +7,7 @@ from .utils import (ALLOWED_CHARACTERS, get_complete_path_of_file,
 ## GLOBAL VARIABLES ##
 CENSOR_WORDSET = set()
 CHARS_MAPPING = {
-    'a': ('a', '@', '*', '4', '&'),
+    'a': ('a', '@', '*', '4'),
     'i': ('i', '*', 'l', '1'),
     'o': ('o', '*', '0', '@'),
     'u': ('u', '*', 'v'),
