@@ -1,19 +1,18 @@
-better_profanity
----
+# better_profanity
 *A Python library to clean swear words (and their leetspeak) in strings*
 
 [![release](https://img.shields.io/badge/dynamic/json.svg?label=release&url=https%3A%2F%2Fpypi.org%2Fpypi%2Fbetter-profanity%2Fjson&query=%24.info.version&colorB=blue)](https://github.com/snguyenthanh/better_profanity/releases/latest)
 [![Build Status](https://travis-ci.com/snguyenthanh/better_profanity.svg?branch=master)](https://travis-ci.com/snguyenthanh/better_profanity)
-![python](https://img.shields.io/badge/python-3.6%20%7C%203.7-blue.svg)
+![python](https://img.shields.io/badge/python-3.5%2B-blue.svg)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://github.com/snguyenthanh/better_profanity/blob/master/LICENSE)
 
 
 Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben Friedland](https://github.com/ben174), this library is much faster than the original one, by using string comparison instead of regex.
 
-It partially supports [modified spellings](https://en.wikipedia.org/wiki/Leet) (such as `p0rn`, `h4ndjob` and `handj0b`).
+It supports [modified spellings](https://en.wikipedia.org/wiki/Leet) (such as `p0rn`, `h4ndjob` and `handj0b`).
 
 ## Requirements
-To make use of Python static typing, this package only works with `Python 3.6+`.
+To make use of Python static typing, this package only works with `Python 3.5+`.
 
 ## Installation
 ```
@@ -21,7 +20,6 @@ $ pip install better_profanity
 ```
 
 ## Unicode characters
-A huge thanks to [@Derfirm](https://github.com/Derfirm) for adding support for Unicode characters.
 
 Only Unicode characters from categories `Ll`, `Lu`, `Mc` and `Mn` are added. More on Unicode categories can be found [here][unicode category link].
 
@@ -34,7 +32,8 @@ By default, on the first `.censor()` call, function `.load_censor_words()` gener
 
 For example, the word `handjob` would be loaded into:
 ```
-'h@ndjob', 'handj0b', 'handj@b', 'h*ndj*b', 'h*ndjob', 'h@ndj0b', 'h@ndj*b', 'h4ndj*b', 'h@ndj@b', 'handjob', 'h4ndj0b', 'h4ndjob', 'h4ndj@b', 'h*ndj0b', 'handj*b', 'h*ndj@b'
+'h@ndjob', 'handj0b', 'handj@b', 'h*ndj*b', 'h*ndjob', 'h@ndj0b', 'h@ndj*b', 'h4ndj*b',
+'h@ndj@b', 'handjob', 'h4ndj0b', 'h4ndjob', 'h4ndj@b', 'h*ndj0b', 'handj*b', 'h*ndj@b'
 ```
 
 This set of words will be stored in memory (~5MB+).
@@ -126,3 +125,26 @@ if __name__ == "__main__":
     print(censored_text)
     # Эффекти́вного **** от я́да фу́гу не существу́ет до сих пор
 ```
+
+## Testing
+```
+$ python tests.py
+```
+
+## Versions
+- [v0.3.1](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.1) - Remove unused dependencies.
+- [v0.3.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.0) - Add support for Unicode characters (Categories: Ll, Lu, Mc and Mn) [#2](https://github.com/snguyenthanh/better_profanity/pull/2).
+- [v0.2.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.2) - Bug fix + faster censoring
+- [v0.1.0](https://github.com/snguyenthanh/better_profanity/releases/tag/v0.1) - Initial release
+
+## Contributing
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Special thanks to
+- [Andrew Grinevich](https://github.com/Derfirm) - Add support for Unicode characters.
+
+## Acknowledgments
+- [Ben Friedland](https://github.com/ben174) - For the inspiring package [profanity](https://github.com/ben174/profanity).
