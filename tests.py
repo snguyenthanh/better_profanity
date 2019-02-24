@@ -21,6 +21,10 @@ class ProfanityTest(unittest.TestCase):
         censored_text = profanity.censor(innocent_text)
         self.assertEqual(innocent_text, censored_text)
 
+    def test_empty_string(self):
+        censored_text = profanity.censor("")
+        self.assertEqual(censored_text, "")
+
     def test_censorship_1(self):
         bad_text = "Dude, I hate shit. Fuck bullshit."
         censored_text = profanity.censor(bad_text)

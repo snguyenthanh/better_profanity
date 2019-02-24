@@ -1,0 +1,12 @@
+MANIFEST.in
+README.md
+setup.py
+better_profanity/__init__.py
+better_profanity/alphabetic_unicode.json
+better_profanity/profanity.py
+better_profanity/profanity_wordlist.txt
+better_profanity/utils.py
+better_profanity.egg-info/PKG-INFO
+better_profanity.egg-info/SOURCES.txt
+better_profanity.egg-info/dependency_links.txt
+better_profanity.egg-info/top_level.txt
