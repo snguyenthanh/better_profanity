@@ -123,8 +123,6 @@ def hide_swear_words(text: str, censor_char: str) -> str:
         text = text[start_idx_of_next_word:]
 
     # Splitting each word in the text to compare with censored words
-    # for index in iter(range(start_idx_of_next_word, len(text))):
-    #     char = text[index]
     for index, char in iter(enumerate(text)):
         if index < skip_index:
             continue
@@ -154,12 +152,11 @@ def hide_swear_words(text: str, censor_char: str) -> str:
         if cur_word.lower() in CENSOR_WORDSET:
             cur_word = get_replacement_for_swear_word(censor_char)
 
-        censored_text += cur_word
-        censored_text += char
+        censored_text += cur_word + char
         cur_word = ""
 
     # Final check
-    if cur_word != "" and skip_index < len(text):
+    if cur_word != "" and skip_index < len(text) - 1:
         if cur_word.lower() in CENSOR_WORDSET:
             cur_word = get_replacement_for_swear_word(censor_char)
         censored_text += cur_word

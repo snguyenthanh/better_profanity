@@ -40,6 +40,21 @@ class ProfanityTest(unittest.TestCase):
         censored_text = "That **** gave m3 a very good ****, dude. You gotta check."
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
+    def test_censorship_3(self):
+        bad_text = "Those 2 girls 1 cup. You gotta check. "
+        censored_text = "Those ****. You gotta check. "
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+    def test_censorship_4(self):
+        bad_text = "2 girls 1 cup"
+        censored_text = "****"
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+    def test_censorship_5(self):
+        bad_text = 'fuck 2 girls 1 cup'
+        censored_text = '**** ****'
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+        
     def test_censorship_with_starting_swear_word(self):
         bad_text = "  wh0re gave m3 a very good H@nD j0b."
         censored_text = "  **** gave m3 a very good ****."
