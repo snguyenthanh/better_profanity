@@ -132,6 +132,7 @@ $ python tests.py
 ```
 
 ## Versions
+- [v0.3.3](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.3) - Fix incompatibility with Python 3.5.
 - [v0.3.2](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.2) - Fix a typo in documentation.
 - [v0.3.1](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.1) - Remove unused dependencies.
 - [v0.3.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.0) - Add support for Unicode characters (Categories: Ll, Lu, Mc and Mn) [#2](https://github.com/snguyenthanh/better_profanity/pull/2).
