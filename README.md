@@ -7,12 +7,12 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://github.com/snguyenthanh/better_profanity/blob/master/LICENSE)
 
 
-Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben Friedland](https://github.com/ben174), this library is much faster than the original one, by using string comparison instead of regex.
+Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben Friedland](https://github.com/ben174), this library is significantly faster than the original one, by using string comparison instead of regex.
 
-It supports [modified spellings](https://en.wikipedia.org/wiki/Leet) (such as `p0rn`, `h4ndjob` and `handj0b`).
+It supports [modified spellings](https://en.wikipedia.org/wiki/Leet) (such as `p0rn`, `h4ndjob`, `handj0b` and `b*tch`).
 
 ## Requirements
-To make use of Python static typing, this package only works with `Python 3.5+`.
+To make use of static typing and many relevant optimisations, this package only works with `Python 3.5+`.
 
 ## Installation
 ```
@@ -31,12 +31,18 @@ However, this library has not supported all languages yet, such as *Chinese*.
 By default, on the first `.censor()` call, function `.load_censor_words()` generates all possible [leetspeak](https://en.wikipedia.org/wiki/Leet) words, from [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt), to be used to compare against the input texts.  The full mapping of the library can be found in [profanity.py](./better_profanity/profanity.py#L9-L18).
 
 For example, the word `handjob` would be loaded into:
+
 ```
-'h@ndjob', 'handj0b', 'handj@b', 'h*ndj*b', 'h*ndjob', 'h@ndj0b', 'h@ndj*b', 'h4ndj*b',
-'h@ndj@b', 'handjob', 'h4ndj0b', 'h4ndjob', 'h4ndj@b', 'h*ndj0b', 'handj*b', 'h*ndj@b'
+'handjob', 'handj*b', 'handj0b', 'handj@b', 'h@ndjob', 'h@ndj*b', 'h@ndj0b', 'h@ndj@b',
+'h*ndjob', 'h*ndj*b', 'h*ndj0b', 'h*ndj@b', 'h4ndjob', 'h4ndj*b', 'h4ndj0b', 'h4ndj@b'
 ```
 
-This set of words will be stored in memory (~5MB+).
+## Wordlist
+Most of the words in the default [wordlist](./better_profanity/profanity_wordlist.txt) are referred from [Full List of Bad Words and Top Swear Words Banned by Google](https://github.com/RobertJGabriel/Google-profanity-words).
+
+The wordlist contains a total of __106,992 words__, including 317 words from the default [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) and their variants by modified spellings.
+
+Its total size in memory is 10.49+MB.
 
 ### 1. Censor swear words from a text
 By default, `profanity` replaces each swear words with 4 asterisks `****`.
@@ -125,6 +131,20 @@ if __name__ == "__main__":
     print(censored_text)
     # Эффекти́вного **** от я́да фу́гу не существу́ет до сих пор
 ```
+
+## Limitations
+
+1. As the library compares each word by characters, the censor could easily be bypassed by adding any character(s) to the word:
+
+```
+profanity.censor('I just have sexx')
+# returns 'I just have sexx'
+
+profanity.censor('jerkk off')
+# returns 'jerkk off'
+```
+
+2. Any word in [wordlist](https://github.com/snguyenthanh/better_profanity/blob/master/better_profanity/profanity_wordlist.txt) that have non-space separators cannot be recognised, such as `s & m`, and therefore, won't be filtered out. This problem was raised in [issue #5](https://github.com/snguyenthanh/better_profanity/issues/5).
 
 ## Testing
 ```

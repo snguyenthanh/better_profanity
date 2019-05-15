@@ -54,7 +54,7 @@ class ProfanityTest(unittest.TestCase):
         bad_text = 'fuck 2 girls 1 cup'
         censored_text = '**** ****'
         self.assertEqual(profanity.censor(bad_text), censored_text)
-        
+
     def test_censorship_with_starting_swear_word(self):
         bad_text = "  wh0re gave m3 a very good H@nD j0b."
         censored_text = "  **** gave m3 a very good ****."
