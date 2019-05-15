@@ -1,6 +1,5 @@
 import json
 import os.path
-from collections import defaultdict
 from string import ascii_letters, digits
 from typing import List, Set, Tuple
 
@@ -26,6 +25,7 @@ def load_unicode_symbols(unicode_symbols_json: str = "alphabetic_unicode.json"):
 
 
 def get_start_index_of_next_word(text: str, start_idx: int) -> int:
+    """Return the index of the first character of the next word in the given text."""
     start_idx_of_next_word = len(text)
     for index in iter(range(start_idx, len(text))):
         if text[index] not in ALLOWED_CHARACTERS:
@@ -37,6 +37,7 @@ def get_start_index_of_next_word(text: str, start_idx: int) -> int:
 
 
 def get_next_word_and_end_index(text: str, start_idx: int):
+    """Return the next word in the given text, and the index of its last character."""
     next_word = ""
     index = start_idx
     for index in iter(range(start_idx, len(text))):
@@ -49,9 +50,11 @@ def get_next_word_and_end_index(text: str, start_idx: int):
 
 
 def any_next_words_form_swear_word(
-    cur_word: str, text: str, words_indices: List[tuple], censor_words: Set[str]
-) -> Tuple[bool, int]:
-    """Return True, and the end index of the word in the text, if any word formed in words_indices is in `CENSOR_WORDSET`."""
+        cur_word: str, text: str, words_indices: List[tuple], censor_words: Set[str]
+    ) -> Tuple[bool, int]:
+    """
+    Return True, and the end index of the word in the text, if any word formed in words_indices is in `CENSOR_WORDSET`.
+    """
     full_word = cur_word.lower()
     full_word_with_separators = cur_word.lower()
 

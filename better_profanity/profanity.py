@@ -14,7 +14,7 @@ CHARS_MAPPING = {
     'v': ('v', '*', 'u'),
     'l': ('l', '1'),
     'e': ('e', '*', '3'),
-    's': ('s', '$'),
+    's': ('s', '$', '5'),
 }
 
 # Pre-load the unicode characters
@@ -79,7 +79,6 @@ def read_wordlist() -> Set[str]:
                     yield row
     except FileNotFoundError:
         print('Unable to find profanity_wordlist.txt')
-        pass
 
 
 def get_replacement_for_swear_word(censor_char: str) -> str:
@@ -92,8 +91,8 @@ def contains_profanity(text: str) -> bool:
 
 
 def update_next_words_indices(
-    text: str, words_indices: List[tuple], start_idx: int
-) -> List[tuple]:
+        text: str, words_indices: List[tuple], start_idx: int
+    ) -> List[tuple]:
     """Return a list of next words_indices after the input index."""
     if not words_indices:
         words_indices = get_next_words(text, start_idx, MAX_NUMBER_COMBINATIONS)
@@ -109,7 +108,6 @@ def hide_swear_words(text: str, censor_char: str) -> str:
     censored_text = ""
     cur_word = ""
     skip_index = -1
-    skip_cur_char = False
     next_words_indices = []
     start_idx_of_next_word = get_start_index_of_next_word(text, 0)
 
