@@ -25,7 +25,7 @@ Only Unicode characters from categories `Ll`, `Lu`, `Mc` and `Mn` are added. Mor
 
 [unicode category link]: https://en.wikipedia.org/wiki/Template:General_Category_(Unicode)
 
-However, this library has not supported all languages yet, such as *Chinese*.
+Not all languages are supported yet, such as *Chinese*.
 
 ## Wordlist
 Most of the words in the default [wordlist](./better_profanity/profanity_wordlist.txt) are referred from [Full List of Bad Words and Top Swear Words Banned by Google](https://github.com/RobertJGabriel/Google-profanity-words).
