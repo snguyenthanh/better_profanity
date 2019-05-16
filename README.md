@@ -27,6 +27,13 @@ Only Unicode characters from categories `Ll`, `Lu`, `Mc` and `Mn` are added. Mor
 
 However, this library has not supported all languages yet, such as *Chinese*.
 
+## Wordlist
+Most of the words in the default [wordlist](./better_profanity/profanity_wordlist.txt) are referred from [Full List of Bad Words and Top Swear Words Banned by Google](https://github.com/RobertJGabriel/Google-profanity-words).
+
+The wordlist contains a total of __106,992 words__, including 317 words from the default [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) and their variants by modified spellings.
+
+Its total size in memory is 10.49+MB.
+
 ## Usage
 By default, on the first `.censor()` call, function `.load_censor_words()` generates all possible [leetspeak](https://en.wikipedia.org/wiki/Leet) words, from [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt), to be used to compare against the input texts.  The full mapping of the library can be found in [profanity.py](./better_profanity/profanity.py#L9-L18).
 
@@ -36,13 +43,6 @@ For example, the word `handjob` would be loaded into:
 'handjob', 'handj*b', 'handj0b', 'handj@b', 'h@ndjob', 'h@ndj*b', 'h@ndj0b', 'h@ndj@b',
 'h*ndjob', 'h*ndj*b', 'h*ndj0b', 'h*ndj@b', 'h4ndjob', 'h4ndj*b', 'h4ndj0b', 'h4ndj@b'
 ```
-
-## Wordlist
-Most of the words in the default [wordlist](./better_profanity/profanity_wordlist.txt) are referred from [Full List of Bad Words and Top Swear Words Banned by Google](https://github.com/RobertJGabriel/Google-profanity-words).
-
-The wordlist contains a total of __106,992 words__, including 317 words from the default [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) and their variants by modified spellings.
-
-Its total size in memory is 10.49+MB.
 
 ### 1. Censor swear words from a text
 By default, `profanity` replaces each swear words with 4 asterisks `****`.
