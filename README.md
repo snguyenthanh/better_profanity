@@ -1,5 +1,5 @@
 # better_profanity
-*A Python library to clean swear words (and their leetspeak) in strings*
+*Blazingly fast cleaning swear words (and their leetspeak) in strings*
 
 [![release](https://img.shields.io/badge/dynamic/json.svg?label=release&url=https%3A%2F%2Fpypi.org%2Fpypi%2Fbetter-profanity%2Fjson&query=%24.info.version&colorB=blue)](https://github.com/snguyenthanh/better_profanity/releases/latest)
 [![Build Status](https://travis-ci.com/snguyenthanh/better_profanity.svg?branch=master)](https://travis-ci.com/snguyenthanh/better_profanity)
@@ -35,14 +35,28 @@ The wordlist contains a total of __106,992 words__, including 317 words from the
 Its total size in memory is 10.49+MB.
 
 ## Usage
-By default, on the first `.censor()` call, function `.load_censor_words()` generates all possible [leetspeak](https://en.wikipedia.org/wiki/Leet) words, from [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt), to be used to compare against the input texts.  The full mapping of the library can be found in [profanity.py](./better_profanity/profanity.py#L9-L18).
+It is highly recommended to call `profanity.load_censor_words()` at initialization, to reduce the runtime for the first `profanity.censor()` call.
 
-For example, the word `handjob` would be loaded into:
+```
+from better_profanity import profanity
+
+if __name__ == "__main__":
+    profanity.load_censor_words()
+    
+    text = "You p1ec3 of sHit."
+    censored_text = profanity.censor(text)
+    print(censored_text)
+    # You **** of ****.
+```
+
+All modified spellings of words in [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) will be generated. For example, the word `handjob` would be loaded into:
 
 ```
 'handjob', 'handj*b', 'handj0b', 'handj@b', 'h@ndjob', 'h@ndj*b', 'h@ndj0b', 'h@ndj@b',
 'h*ndjob', 'h*ndj*b', 'h*ndj0b', 'h*ndj@b', 'h4ndjob', 'h4ndj*b', 'h4ndj0b', 'h4ndj@b'
 ```
+
+The full mapping of the library can be found in [profanity.py](./better_profanity/profanity.py#L9-L18).
 
 ### 1. Censor swear words from a text
 By default, `profanity` replaces each swear words with 4 asterisks `****`.
@@ -144,7 +158,7 @@ profanity.censor('jerkk off')
 # returns 'jerkk off'
 ```
 
-2. Any word in [wordlist](https://github.com/snguyenthanh/better_profanity/blob/master/better_profanity/profanity_wordlist.txt) that have non-space separators cannot be recognised, such as `s & m`, and therefore, won't be filtered out. This problem was raised in [issue #5](https://github.com/snguyenthanh/better_profanity/issues/5).
+2. Any word in [wordlist](https://github.com/snguyenthanh/better_profanity/blob/master/better_profanity/profanity_wordlist.txt) that have non-space separators cannot be recognised, such as `s & m`, and therefore, it won't be filtered out. This problem was raised in [issue #5](https://github.com/snguyenthanh/better_profanity/issues/5).
 
 ## Testing
 ```
