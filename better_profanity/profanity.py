@@ -1,21 +1,30 @@
+# -*- coding: utf-8 -*-
+
+from io import open
 from itertools import product
-from typing import Set, List
-from .utils import (ALLOWED_CHARACTERS, get_complete_path_of_file,
-                    get_next_words, get_start_index_of_next_word,
-                    load_unicode_symbols, any_next_words_form_swear_word)
+
+from .utils import (ALLOWED_CHARACTERS, any_next_words_form_swear_word,
+                    get_complete_path_of_file, get_next_words,
+                    get_start_index_of_next_word, load_unicode_symbols)
 
 ## GLOBAL VARIABLES ##
 CENSOR_WORDSET = set()
 CHARS_MAPPING = {
-    'a': ('a', '@', '*', '4'),
-    'i': ('i', '*', 'l', '1'),
-    'o': ('o', '*', '0', '@'),
-    'u': ('u', '*', 'v'),
-    'v': ('v', '*', 'u'),
-    'l': ('l', '1'),
-    'e': ('e', '*', '3'),
-    's': ('s', '$', '5'),
+    "a": ("a", "@", "*", "4"),
+    "i": ("i", "*", "l", "1"),
+    "o": ("o", "*", "0", "@"),
+    "u": ("u", "*", "v"),
+    "v": ("v", "*", "u"),
+    "l": ("l", "1"),
+    "e": ("e", "*", "3"),
+    "s": ("s", "$", "5"),
 }
+
+# Compatibility with Python 2
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
 
 # Pre-load the unicode characters
 load_unicode_symbols()
@@ -26,14 +35,15 @@ load_unicode_symbols()
 MAX_NUMBER_COMBINATIONS = 1
 
 
-def count_non_allowed_characters(word: str) -> int:
+def count_non_allowed_characters(word):
     count = 0
     for char in iter(word):
         if char not in ALLOWED_CHARACTERS:
             count += 1
     return count
 
-def load_censor_words(custom_words: List = None):
+
+def load_censor_words(custom_words=None):
     """Generate a set of words that need to be censored."""
     global CENSOR_WORDSET
     global MAX_NUMBER_COMBINATIONS
@@ -58,41 +68,39 @@ def load_censor_words(custom_words: List = None):
     CENSOR_WORDSET = all_censor_words
 
 
-def generate_patterns_from_word(word: str) -> Set[str]:
+def generate_patterns_from_word(word):
     """Return all patterns can be generated from the word."""
     combos = [
         (char,) if char not in CHARS_MAPPING else CHARS_MAPPING[char]
         for char in iter(word)
     ]
-    return (''.join(pattern) for pattern in product(*combos))
+    return ("".join(pattern) for pattern in product(*combos))
 
 
-def read_wordlist() -> Set[str]:
+def read_wordlist():
     """Return words from file `profanity_wordlist.txt`."""
-    wordlist_filename = 'profanity_wordlist.txt'
+    wordlist_filename = "profanity_wordlist.txt"
     wordlist_path = get_complete_path_of_file(wordlist_filename)
     try:
-        with open(wordlist_path, encoding='utf-8') as wordlist_file:
+        with open(wordlist_path, encoding="utf-8") as wordlist_file:
             for row in iter(wordlist_file):
                 row = row.strip()
                 if row != "":
                     yield row
     except FileNotFoundError:
-        print('Unable to find profanity_wordlist.txt')
+        print("Unable to find profanity_wordlist.txt")
 
 
-def get_replacement_for_swear_word(censor_char: str) -> str:
+def get_replacement_for_swear_word(censor_char):
     return censor_char * 4
 
 
-def contains_profanity(text: str) -> bool:
+def contains_profanity(text):
     """Return True if  the input text has any swear words."""
     return text != censor(text)
 
 
-def update_next_words_indices(
-        text: str, words_indices: List[tuple], start_idx: int
-    ) -> List[tuple]:
+def update_next_words_indices(text, words_indices, start_idx):
     """Return a list of next words_indices after the input index."""
     if not words_indices:
         words_indices = get_next_words(text, start_idx, MAX_NUMBER_COMBINATIONS)
@@ -103,7 +111,7 @@ def update_next_words_indices(
     return words_indices
 
 
-def hide_swear_words(text: str, censor_char: str) -> str:
+def hide_swear_words(text, censor_char):
     """Replace the swear words with censor characters."""
     censored_text = ""
     cur_word = ""
@@ -161,7 +169,7 @@ def hide_swear_words(text: str, censor_char: str) -> str:
     return censored_text
 
 
-def censor(text: str, censor_char: str = '*') -> str:
+def censor(text, censor_char="*"):
     """Replace the swear words in the text with `censor_char`."""
 
     if not isinstance(text, str):
