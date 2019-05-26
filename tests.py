@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import unittest
 
 from better_profanity import profanity
@@ -10,7 +12,7 @@ class ProfanityTest(unittest.TestCase):
         profanity.load_censor_words()
 
     def test_contains_profanity(self):
-        profane = profanity.contains_profanity('he is a m0th3rf*cker')
+        profane = profanity.contains_profanity("he is a m0th3rf*cker")
         self.assertTrue(profane)
 
     def test_leaves_paragraphs_untouched(self):
@@ -51,8 +53,8 @@ class ProfanityTest(unittest.TestCase):
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
     def test_censorship_5(self):
-        bad_text = 'fuck 2 girls 1 cup'
-        censored_text = '**** ****'
+        bad_text = "fuck 2 girls 1 cup"
+        censored_text = "**** ****"
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
     def test_censorship_with_starting_swear_word(self):
@@ -81,7 +83,7 @@ class ProfanityTest(unittest.TestCase):
         self.assertEqual(profanity.censor(clean_text), clean_text)
 
     def test_custom_wordlist(self):
-        custom_badwords = ['happy', 'jolly', 'merry']
+        custom_badwords = ["happy", "jolly", "merry"]
         profanity.load_censor_words(custom_badwords)
         # make sure it doesn't find real profanity anymore
         self.assertFalse(profanity.contains_profanity("Fuck you!"))
@@ -128,6 +130,7 @@ class ProfanityUnicodeTestRussian(unittest.TestCase):
         bad_text = "Маргаре́та (э́то бы́ло её настоя́щее и́мя) родила́сь в 1876 (ты́сяча восемьсо́т се́мьдесят шесто́м) году́ в Нидерла́ндах. В 18 (восемна́дцать) лет Маргаре́та вы́шла за́муж и перее́хала в Индоне́зию. Там она́ изуча́ла ме́стную культу́ру и та́нцы."
         censored_text = "Маргаре́та (э́то бы́ло её настоя́щее и́мя) родила́сь в 1876 (ты́сяча восемьсо́т се́мьдесят ****) году́ в ****. В 18 (восемна́дцать) лет Маргаре́та вы́шла за́муж и **** в Индоне́зию. Там она́ изуча́ла ме́стную культу́ру и ****."
         profanity.load_censor_words(["шесто́м", "Нидерла́ндах", "перее́хала", "та́нцы"])
+
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
 
