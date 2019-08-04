@@ -67,6 +67,12 @@ def load_censor_words(custom_words=None):
     # The default wordlist takes ~5MB+ of memory
     CENSOR_WORDSET = all_censor_words
 
+def add_censor_words(custom_words=None):
+    global CENSOR_WORDSET
+
+    if custom_words:
+        CENSOR_WORDSET.update(custom_words)
+
 
 def generate_patterns_from_word(word):
     """Return all patterns can be generated from the word."""

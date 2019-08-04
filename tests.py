@@ -133,6 +133,12 @@ class ProfanityUnicodeTestRussian(unittest.TestCase):
 
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
+    def test_custom_words(self):
+        bad_text = 'supremacia ariana'
+        censored_text = '****'
+        profanity.add_censor_words([bad_text])
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
 
 class ProfanityUnicodeTestVietnamese(unittest.TestCase):
     def setUp(self):
