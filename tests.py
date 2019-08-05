@@ -95,6 +95,18 @@ class ProfanityTest(unittest.TestCase):
         censored_text = "...****...hello_cat_****,,,,qew"
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
+    def test_custom_words(self):
+        bad_text = 'supremacia ariana'
+        censored_text = '****'
+        profanity.add_censor_words([bad_text])
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+    def test_custom_words_doesnt_remove_initial_words(self):
+        bad_text = 'fuck and heck'
+        censored_text = '**** and heck'
+        profanity.add_censor_words(['supremacia ariana'])
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
 
 class ProfanityUnicodeTestRussian(unittest.TestCase):
     def setUp(self):
@@ -132,13 +144,6 @@ class ProfanityUnicodeTestRussian(unittest.TestCase):
         profanity.load_censor_words(["шесто́м", "Нидерла́ндах", "перее́хала", "та́нцы"])
 
         self.assertEqual(profanity.censor(bad_text), censored_text)
-
-    def test_custom_words(self):
-        bad_text = 'supremacia ariana'
-        censored_text = '****'
-        profanity.add_censor_words([bad_text])
-        self.assertEqual(profanity.censor(bad_text), censored_text)
-
 
 class ProfanityUnicodeTestVietnamese(unittest.TestCase):
     def setUp(self):
