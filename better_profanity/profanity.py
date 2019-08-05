@@ -187,3 +187,7 @@ def censor(text, censor_char="*"):
     if not CENSOR_WORDSET:
         load_censor_words()
     return hide_swear_words(text, censor_char)
+
+
+# Pre-load the default wordlist
+load_censor_words()

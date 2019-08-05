@@ -131,7 +131,20 @@ if __name__ == "__main__":
     # Have a **** day! :)
 ```
 
-### 6. Censor Unicode characters
+### 6. Use both default and your custom wordlist
+```
+from better_profanity import profanity
+
+if __name__ == "__main__":
+    custom_badwords = ['happy', 'jolly', 'merry']
+    profanity.add_censor_words(custom_badwords)
+
+    print(profanity.contains_profanity("Happy you, fuck!"))
+    # **** you, ****!
+```
+
+
+### 7. Censor Unicode characters
 No extra steps needed!
 
 ```
@@ -167,6 +180,7 @@ $ python tests.py
 
 ## Versions
 
+- [v0.5.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.5.0) - Add the capability to add to the word list rather than replace it. #8
 - [v0.4.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.4.0) - Add compatibility to all versions of Python 3.
 - [v0.3.4](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.4) - Add significantly more swear words.
 - [v0.3.3](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.3) - Fix incompatibility with Python 3.5.
