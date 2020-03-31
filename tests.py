@@ -96,15 +96,15 @@ class ProfanityTest(unittest.TestCase):
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
     def test_custom_words(self):
-        bad_text = 'supremacia ariana'
-        censored_text = '****'
+        bad_text = "supremacia ariana"
+        censored_text = "****"
         profanity.add_censor_words([bad_text])
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
     def test_custom_words_doesnt_remove_initial_words(self):
-        bad_text = 'fuck and heck'
-        censored_text = '**** and heck'
-        profanity.add_censor_words(['supremacia ariana'])
+        bad_text = "fuck and heck"
+        censored_text = "**** and heck"
+        profanity.add_censor_words(["supremacia ariana"])
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
 
@@ -145,6 +145,7 @@ class ProfanityUnicodeTestRussian(unittest.TestCase):
 
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
+
 class ProfanityUnicodeTestVietnamese(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
@@ -162,6 +163,15 @@ class ProfanityUnicodeTestVietnamese(unittest.TestCase):
         censored_text = "Con chó sủa **** ****!"
         profanity.load_censor_words(["gâu"])
         self.assertEqual(profanity.censor(bad_text), censored_text)
+
+
+class ProfanityFileTest(unittest.TestCase):
+    def setUp(self):
+        self.maxDiff = None
+
+    def test_read_wordlist_not_found(self):
+        with self.assertRaises(FileNotFoundError):
+            profanity.load_censor_words_from_file("not_found_file.txt")
 
 
 if __name__ == "__main__":

@@ -32,10 +32,7 @@ Most of the words in the default [wordlist](./better_profanity/profanity_wordlis
 
 The wordlist contains a total of __106,992 words__, including 317 words from the default [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) and their variants by modified spellings.
 
-Its total size in memory is 10.49+MB.
-
 ## Usage
-It is highly recommended to call `profanity.load_censor_words()` at initialization, to reduce the runtime for the first `profanity.censor()` call.
 
 ```
 from better_profanity import profanity
@@ -56,7 +53,7 @@ All modified spellings of words in [profanity_wordlist.txt](./better_profanity/p
 'h*ndjob', 'h*ndj*b', 'h*ndj0b', 'h*ndj@b', 'h4ndjob', 'h4ndj*b', 'h4ndj0b', 'h4ndj@b'
 ```
 
-The full mapping of the library can be found in [profanity.py](./better_profanity/profanity.py#L9-L18).
+The full mapping of the library can be found in [profanity.py](./better_profanity/better_profanity.py#L18-L26).
 
 ### 1. Censor swear words from a text
 By default, `profanity` replaces each swear words with 4 asterisks `****`.
@@ -114,7 +111,9 @@ if __name__ == "__main__":
 ```
 
 ### 5. Censor swear words with a custom wordlist
-Function `.load_censor_words()` takes a `List` of strings as censored words.
+
+#### 5.1. Wordlist as a `List`
+Function `load_censor_words` takes a `List` of strings as censored words.
 The provided list will replace the default wordlist.
 
 ```
@@ -124,14 +123,39 @@ if __name__ == "__main__":
     custom_badwords = ['happy', 'jolly', 'merry']
     profanity.load_censor_words(custom_badwords)
 
-    print(profanity.contains_profanity("Fuck you!"))
-    # Fuck you
-
     print(profanity.contains_profanity("Have a merry day! :)"))
     # Have a **** day! :)
 ```
 
-### 6. Use both default and your custom wordlist
+#### 5.2. Wordlist as a file
+Function `load_censor_words_from_file takes a filename, which is a text file and each word is separated by lines.
+
+```
+from better_profanity import profanity
+
+if __name__ == "__main__":
+    profanity.load_censor_words_from_file('/path/to/my/project/my_wordlist.txt')
+```
+
+### 6. Whitelist
+
+Function `load_censor_words` and `load_censor_words_from_file` takes a keyword argument `whitelist_words` to ignore words in a wordlist.
+
+It is best used when there are only a few words that you would like to ignore in the wordlist.
+
+```
+# Use the default wordlist
+profanity.load_censor_words(whitelist_words=['gay', 'lesbian'])
+
+# or with your custom words as a List
+custom_badwords = ['happy', 'jolly', 'merry']
+profanity.load_censor_words(custom_badwords, whitelist_words=['merry'])
+
+# or with your custom words as a text file
+profanity.load_censor_words_from_file('/path/to/my/project/my_wordlist.txt', whitelist_words=['merry'])
+```
+
+### 7. Add more censor words
 ```
 from better_profanity import profanity
 
@@ -141,22 +165,6 @@ if __name__ == "__main__":
 
     print(profanity.contains_profanity("Happy you, fuck!"))
     # **** you, ****!
-```
-
-
-### 7. Censor Unicode characters
-No extra steps needed!
-
-```
-from better_profanity import profanity
-
-if __name__ == "__main__":
-    bad_text = "Эффекти́вного противоя́дия от я́да фу́гу не существу́ет до сих пор"
-    profanity.load_censor_words(["противоя́дия"])
-
-    censored_text = profanity.censor(text)
-    print(censored_text)
-    # Эффекти́вного **** от я́да фу́гу не существу́ет до сих пор
 ```
 
 ## Limitations
@@ -177,18 +185,6 @@ profanity.censor('jerkk off')
 ```
 $ python tests.py
 ```
-
-## Versions
-
-- [v0.5.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.5.0) - Add the capability to add to the word list rather than replace it. #8
-- [v0.4.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.4.0) - Add compatibility to all versions of Python 3.
-- [v0.3.4](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.4) - Add significantly more swear words.
-- [v0.3.3](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.3) - Fix incompatibility with Python 3.5.
-- [v0.3.2](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.2) - Fix a typo in documentation.
-- [v0.3.1](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.1) - Remove unused dependencies.
-- [v0.3.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.3.0) - Add support for Unicode characters (Categories: Ll, Lu, Mc and Mn) [#2](https://github.com/snguyenthanh/better_profanity/pull/2).
-- [v0.2.0](https://github.com/snguyenthanh/better_profanity/releases/tag/0.2) - Bug fix + faster censoring
-- [v0.1.0](https://github.com/snguyenthanh/better_profanity/releases/tag/v0.1) - Initial release
 
 ## Contributing
 Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
