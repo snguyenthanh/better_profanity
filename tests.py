@@ -165,6 +165,22 @@ class ProfanityUnicodeTestVietnamese(unittest.TestCase):
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
 
+class ProfanityWhitelistTest(unittest.TestCase):
+    def setUp(self):
+        self.maxDiff = None
+        # Pre-load CENSOR_WORDSET
+        profanity.load_censor_words()
+
+    def test_whitelist_words(self):
+        bad_text = "I am gay"
+        censored_text = "I am ****"
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+        # Whitelist the word `gay`
+        profanity.load_censor_words(whitelist_words=["gay"])
+        self.assertEqual(profanity.censor(bad_text), bad_text)
+
+
 class ProfanityFileTest(unittest.TestCase):
     def setUp(self):
         self.maxDiff = None
