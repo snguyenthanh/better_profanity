@@ -10,8 +10,6 @@ class ProfanityTest(unittest.TestCase):
         self.maxDiff = None
         # Pre-load CENSOR_WORDSET
         profanity.load_censor_words()
-        print(len(profanity.CENSOR_WORDSET))
-        assert 0
 
     def test_contains_profanity(self):
         profane = profanity.contains_profanity("he is a m0th3rf*cker")
