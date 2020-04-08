@@ -30,7 +30,7 @@ Not all languages are supported yet, such as *Chinese*.
 ## Wordlist
 Most of the words in the default [wordlist](./better_profanity/profanity_wordlist.txt) are referred from [Full List of Bad Words and Top Swear Words Banned by Google](https://github.com/RobertJGabriel/Google-profanity-words).
 
-The wordlist contains a total of __106,992 words__, including 317 words from the default [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) and their variants by modified spellings.
+The wordlist contains a total of __181,590 words__, including 320 words from the default [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) and their variants by modified spellings.
 
 ## Usage
 
@@ -145,7 +145,7 @@ It is best used when there are only a few words that you would like to ignore in
 
 ```
 # Use the default wordlist
-profanity.load_censor_words(whitelist_words=['gay', 'lesbian'])
+profanity.load_censor_words(whitelist_words=['happy', 'merry'])
 
 # or with your custom words as a List
 custom_badwords = ['happy', 'jolly', 'merry']
