@@ -10,6 +10,8 @@ class ProfanityTest(unittest.TestCase):
         self.maxDiff = None
         # Pre-load CENSOR_WORDSET
         profanity.load_censor_words()
+        print(len(profanity.CENSOR_WORDSET))
+        assert 0
 
     def test_contains_profanity(self):
         profane = profanity.contains_profanity("he is a m0th3rf*cker")
@@ -172,12 +174,12 @@ class ProfanityWhitelistTest(unittest.TestCase):
         profanity.load_censor_words()
 
     def test_whitelist_words(self):
-        bad_text = "I am gay"
-        censored_text = "I am ****"
+        bad_text = "I have boobs"
+        censored_text = "I have ****"
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
-        # Whitelist the word `gay`
-        profanity.load_censor_words(whitelist_words=["gay"])
+        # Whitelist the word `boobs`
+        profanity.load_censor_words(whitelist_words=["boobs"])
         self.assertEqual(profanity.censor(bad_text), bad_text)
 
 

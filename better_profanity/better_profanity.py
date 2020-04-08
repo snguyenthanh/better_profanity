@@ -24,6 +24,7 @@ class Profanity:
             "l": ("l", "1"),
             "e": ("e", "*", "3"),
             "s": ("s", "$", "5"),
+            "t": ("t", "7",),
         }
         self.MAX_NUMBER_COMBINATIONS = 1
         self.ALLOWED_CHARACTERS = ALLOWED_CHARACTERS
