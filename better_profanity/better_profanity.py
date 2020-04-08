@@ -83,8 +83,8 @@ class Profanity:
         for index, word in enumerate(whitelist_words):
             if not isinstance(word, str):
                 raise ValueError(
-                    f"Each word in 'whitelist_words' must be 'str' type, "
-                    f"but '{type(word)}' found."
+                    "Each word in 'whitelist_words' must be 'str' type, "
+                    "but '{word}' found.".format(word=type(word))
                 )
             whitelist_words[index] = word.lower()
 
