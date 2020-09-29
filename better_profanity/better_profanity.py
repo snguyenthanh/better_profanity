@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from functools import reduce
 from itertools import product
+import operator
 
 from .constants import ALLOWED_CHARACTERS
 
@@ -11,6 +13,8 @@ from .utils import (
     get_complete_path_of_file,
 )
 
+# Maximum number of patterns that can be generated for a word.
+MAX_PATTERNS = 4_000_000
 
 class Profanity:
     def __init__(self):
@@ -116,11 +120,21 @@ class Profanity:
         return count
 
     def _generate_patterns_from_word(self, word):
-        """Return all patterns can be generated from the word."""
+        """
+        Return all patterns can be generated from the word. Returns an empty tuple if the word
+        has too many variants.
+        """
         combos = [
             (char,) if char not in self.CHARS_MAPPING else self.CHARS_MAPPING[char]
             for char in iter(word)
         ]
+
+        # Prevent exponential memory consumption runoff.
+        num_patterns = reduce(operator.mul, [len(chars) for chars in combos], 1)
+        if num_patterns > MAX_PATTERNS:
+            print('WARNING: Ignoring "{word}" for having too many variants'.format(word=word))
+            return ()
+
         return ("".join(pattern) for pattern in product(*combos))
 
     def _update_next_words_indices(self, text, words_indices, start_idx):
