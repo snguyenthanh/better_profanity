@@ -11,6 +11,9 @@ ALLOWED_CHARACTERS = set(ascii_letters)
 ALLOWED_CHARACTERS.update(set(digits))
 ALLOWED_CHARACTERS.update({"@", "$", "*", '"', "'"})
 
+# Maximum number of patterns that can be generated for a word.
+MAX_PATTERNS = 4000000
+
 # Pre-load the unicode characters
 with open(get_complete_path_of_file("alphabetic_unicode.json"), "r") as json_file:
     ALLOWED_CHARACTERS.update(load(json_file))

@@ -4,7 +4,7 @@ from functools import reduce
 from itertools import product
 import operator
 
-from .constants import ALLOWED_CHARACTERS
+from .constants import ALLOWED_CHARACTERS, MAX_PATTERNS
 
 from .utils import (
     read_wordlist,
@@ -12,9 +12,6 @@ from .utils import (
     any_next_words_form_swear_word,
     get_complete_path_of_file,
 )
-
-# Maximum number of patterns that can be generated for a word.
-MAX_PATTERNS = 4000000
 
 
 class Profanity:
