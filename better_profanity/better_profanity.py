@@ -2,7 +2,9 @@
 
 from functools import reduce
 from itertools import product
+import logging
 import operator
+from sys import stderr
 
 from .constants import ALLOWED_CHARACTERS, MAX_PATTERNS
 
@@ -12,6 +14,17 @@ from .utils import (
     any_next_words_form_swear_word,
     get_complete_path_of_file,
 )
+
+logger = logging.getLogger("better_profanity")
+logger.setLevel(logging.WARNING)
+handler = logging.StreamHandler(stderr)
+handler.setFormatter(
+    logging.Formatter(
+        fmt="%(levelname)s [%(asctime)s] %(name)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+)
+logger.addHandler(handler)
 
 
 class Profanity:
@@ -130,10 +143,8 @@ class Profanity:
         # Prevent exponential memory consumption runoff.
         num_patterns = reduce(operator.mul, [len(chars) for chars in combos], 1)
         if num_patterns > MAX_PATTERNS:
-            print(
-                'WARNING: Ignoring "{word}" for having too many variants'.format(
-                    word=word
-                )
+            logger.warning(
+                'Ignoring "{word}" for having too many variants'.format(word=word)
             )
             return ()
 
