@@ -1,18 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from itertools import product
-
 
 class VaryingString:
     """Represents a string with varying character representations."""
-
-    @staticmethod
-    def _create_variants(combos):
-        """
-        Args:
-            combos (list): List of lists of character.
-        """
-        return tuple("".join(pattern) for pattern in product(*combos))
 
     def __init__(self, string, char_map={}, variant_thres=10000):
         """
