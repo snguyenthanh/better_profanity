@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from collections.abc import Iterable
+
 from .constants import ALLOWED_CHARACTERS
-
-
 from .utils import (
     any_next_words_form_swear_word,
     get_complete_path_of_file,
@@ -13,8 +13,23 @@ from .varying_string import VaryingString
 
 
 class Profanity:
-    def __init__(self):
-        self.CENSOR_WORDSET = set()
+    def __init__(self, words=None):
+        """
+        Args:
+            words (Iterable/str): Collection of words or file path for a list of
+                words to censor. `None` to use the default word list.
+
+        Raises:
+            TypeError: If `words` is not a valid type.
+            FileNotFoundError: If `words` is a `str` and is not a valid file path.
+        """
+        if (
+            words is not None
+            and not isinstance(words, str)
+            and not isinstance(words, Iterable)
+        ):
+            raise TypeError("words must be of type str, list, or None")
+        self.CENSOR_WORDSET = []
         self.CHARS_MAPPING = {
             "a": ("a", "@", "*", "4"),
             "i": ("i", "*", "l", "1"),
@@ -31,7 +46,10 @@ class Profanity:
         self._default_wordlist_filename = get_complete_path_of_file(
             "profanity_wordlist.txt"
         )
-        self.load_censor_words()
+        if type(words) == str:
+            self.load_censor_words_from_file(words)
+        else:
+            self.load_censor_words(custom_words=words)
 
     ## PUBLIC ##
 
@@ -92,8 +110,7 @@ class Profanity:
         # Populate the words into an internal wordset
         whitelist_words = set(whitelist_words)
         all_censor_words = []
-        # TODO: Prevent identical words from being added twice.
-        for word in words:
+        for word in set(words):
             # All words in CENSOR_WORDSET must be in lowercase
             word = word.lower()
 
