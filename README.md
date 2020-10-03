@@ -181,8 +181,6 @@ profanity.censor('jerkk off')
 
 2. Any word in [wordlist](https://github.com/snguyenthanh/better_profanity/blob/master/better_profanity/profanity_wordlist.txt) that have non-space separators cannot be recognised, such as `s & m`, and therefore, it won't be filtered out. This problem was raised in [#5](https://github.com/snguyenthanh/better_profanity/issues/5).
 
-3. Single words with sufficiently many leetspeak variants can consume tens or even hundreds of megabytes of memory. This problem was raised in [#15](https://github.com/snguyenthanh/better_profanity/issues/15). Words with too many variants are ignored altogether to prevent system crashes.
-
 ## Testing
 ```
 $ python tests.py
