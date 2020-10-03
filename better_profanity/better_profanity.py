@@ -1,30 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from functools import reduce
-from itertools import product
-import logging
-import operator
-from sys import stderr
+from .constants import ALLOWED_CHARACTERS
 
-from .constants import ALLOWED_CHARACTERS, MAX_PATTERNS
 
 from .utils import (
-    read_wordlist,
-    get_replacement_for_swear_word,
     any_next_words_form_swear_word,
     get_complete_path_of_file,
+    get_replacement_for_swear_word,
+    read_wordlist,
 )
-
-logger = logging.getLogger("better_profanity")
-logger.setLevel(logging.WARNING)
-handler = logging.StreamHandler(stderr)
-handler.setFormatter(
-    logging.Formatter(
-        fmt="%(levelname)s [%(asctime)s] %(name)s - %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
-)
-logger.addHandler(handler)
+from .varying_string import VaryingString
 
 
 class Profanity:
@@ -77,8 +62,8 @@ class Profanity:
             raise TypeError(
                 "Function 'add_censor_words' only accepts list, tuple or set."
             )
-
-        self.CENSOR_WORDSET.update(custom_words)
+        for w in custom_words:
+            self.CENSOR_WORDSET.append(VaryingString(w, char_map=self.CHARS_MAPPING))
 
     def contains_profanity(self, text):
         """Return True if  the input text has any swear words."""
@@ -106,7 +91,8 @@ class Profanity:
 
         # Populate the words into an internal wordset
         whitelist_words = set(whitelist_words)
-        all_censor_words = set()
+        all_censor_words = []
+        # TODO: Prevent identical words from being added twice.
         for word in words:
             # All words in CENSOR_WORDSET must be in lowercase
             word = word.lower()
@@ -118,7 +104,7 @@ class Profanity:
             if num_of_non_allowed_chars > self.MAX_NUMBER_COMBINATIONS:
                 self.MAX_NUMBER_COMBINATIONS = num_of_non_allowed_chars
 
-            all_censor_words.update(set(self._generate_patterns_from_word(word)))
+            all_censor_words.append(VaryingString(word, char_map=self.CHARS_MAPPING))
 
         # The default wordlist takes ~5MB+ of memory
         self.CENSOR_WORDSET = all_censor_words
@@ -129,26 +115,6 @@ class Profanity:
             if char not in self.ALLOWED_CHARACTERS:
                 count += 1
         return count
-
-    def _generate_patterns_from_word(self, word):
-        """
-        Return all patterns can be generated from the word. Returns an empty tuple if
-        the word has too many variants.
-        """
-        combos = [
-            (char,) if char not in self.CHARS_MAPPING else self.CHARS_MAPPING[char]
-            for char in iter(word)
-        ]
-
-        # Prevent exponential memory consumption runoff.
-        num_patterns = reduce(operator.mul, [len(chars) for chars in combos], 1)
-        if num_patterns > MAX_PATTERNS:
-            logger.warning(
-                'Ignoring "{word}" for having too many variants'.format(word=word)
-            )
-            return ()
-
-        return ("".join(pattern) for pattern in product(*combos))
 
     def _update_next_words_indices(self, text, words_indices, start_idx):
         """Return a list of next words_indices after the input index."""
