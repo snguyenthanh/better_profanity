@@ -4,12 +4,11 @@
 class VaryingString:
     """Represents a string with varying character representations."""
 
-    def __init__(self, string, char_map={}, variant_thres=10000):
+    def __init__(self, string, char_map={}):
         """
         Args:
             string (str): String to generate variants of.
             char_mappings (dict): Maps characters to substitute characters.
-            variant_thres (int): Maximum number of variants to store in a batch.
         """
         self._original = string
 
