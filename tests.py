@@ -2,7 +2,7 @@
 
 import unittest
 
-from better_profanity import profanity
+from better_profanity import profanity, Profanity
 
 
 class ProfanityTest(unittest.TestCase):
@@ -107,6 +107,18 @@ class ProfanityTest(unittest.TestCase):
         profanity.add_censor_words(["supremacia ariana"])
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
+    def test_init_with_list(self):
+        custom_badwords = ["happy", "jolly", "merry"]
+        Profanity(custom_badwords)
+        Profanity(set(custom_badwords))
+        Profanity(tuple(custom_badwords))
+
+    def test_init_with_bad_type(self):
+        with self.assertRaises(TypeError):
+            Profanity(123)
+        with self.assertRaises(TypeError):
+            Profanity(False)
+
 
 class ProfanityUnicodeTestRussian(unittest.TestCase):
     def setUp(self):
@@ -188,6 +200,10 @@ class ProfanityFileTest(unittest.TestCase):
     def test_read_wordlist_not_found(self):
         with self.assertRaises(FileNotFoundError):
             profanity.load_censor_words_from_file("not_found_file.txt")
+
+    def test_init_wordlist_not_found(self):
+        with self.assertRaises(FileNotFoundError):
+            Profanity("not_found_file.txt")
 
 
 if __name__ == "__main__":

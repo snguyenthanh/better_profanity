@@ -1,20 +1,35 @@
 # -*- coding: utf-8 -*-
 
-from itertools import product
+from collections.abc import Iterable
 
 from .constants import ALLOWED_CHARACTERS
-
 from .utils import (
-    read_wordlist,
-    get_replacement_for_swear_word,
     any_next_words_form_swear_word,
     get_complete_path_of_file,
+    get_replacement_for_swear_word,
+    read_wordlist,
 )
+from .varying_string import VaryingString
 
 
 class Profanity:
-    def __init__(self):
-        self.CENSOR_WORDSET = set()
+    def __init__(self, words=None):
+        """
+        Args:
+            words (Iterable/str): Collection of words or file path for a list of
+                words to censor. `None` to use the default word list.
+
+        Raises:
+            TypeError: If `words` is not a valid type.
+            FileNotFoundError: If `words` is a `str` and is not a valid file path.
+        """
+        if (
+            words is not None
+            and not isinstance(words, str)
+            and not isinstance(words, Iterable)
+        ):
+            raise TypeError("words must be of type str, list, or None")
+        self.CENSOR_WORDSET = []
         self.CHARS_MAPPING = {
             "a": ("a", "@", "*", "4"),
             "i": ("i", "*", "l", "1"),
@@ -24,14 +39,17 @@ class Profanity:
             "l": ("l", "1"),
             "e": ("e", "*", "3"),
             "s": ("s", "$", "5"),
-            "t": ("t", "7",),
+            "t": ("t", "7"),
         }
         self.MAX_NUMBER_COMBINATIONS = 1
         self.ALLOWED_CHARACTERS = ALLOWED_CHARACTERS
         self._default_wordlist_filename = get_complete_path_of_file(
             "profanity_wordlist.txt"
         )
-        self.load_censor_words()
+        if type(words) == str:
+            self.load_censor_words_from_file(words)
+        else:
+            self.load_censor_words(custom_words=words)
 
     ## PUBLIC ##
 
@@ -62,8 +80,8 @@ class Profanity:
             raise TypeError(
                 "Function 'add_censor_words' only accepts list, tuple or set."
             )
-
-        self.CENSOR_WORDSET.update(custom_words)
+        for w in custom_words:
+            self.CENSOR_WORDSET.append(VaryingString(w, char_map=self.CHARS_MAPPING))
 
     def contains_profanity(self, text):
         """Return True if  the input text has any swear words."""
@@ -91,8 +109,8 @@ class Profanity:
 
         # Populate the words into an internal wordset
         whitelist_words = set(whitelist_words)
-        all_censor_words = set()
-        for word in words:
+        all_censor_words = []
+        for word in set(words):
             # All words in CENSOR_WORDSET must be in lowercase
             word = word.lower()
 
@@ -103,7 +121,7 @@ class Profanity:
             if num_of_non_allowed_chars > self.MAX_NUMBER_COMBINATIONS:
                 self.MAX_NUMBER_COMBINATIONS = num_of_non_allowed_chars
 
-            all_censor_words.update(set(self._generate_patterns_from_word(word)))
+            all_censor_words.append(VaryingString(word, char_map=self.CHARS_MAPPING))
 
         # The default wordlist takes ~5MB+ of memory
         self.CENSOR_WORDSET = all_censor_words
@@ -114,14 +132,6 @@ class Profanity:
             if char not in self.ALLOWED_CHARACTERS:
                 count += 1
         return count
-
-    def _generate_patterns_from_word(self, word):
-        """Return all patterns can be generated from the word."""
-        combos = [
-            (char,) if char not in self.CHARS_MAPPING else self.CHARS_MAPPING[char]
-            for char in iter(word)
-        ]
-        return ("".join(pattern) for pattern in product(*combos))
 
     def _update_next_words_indices(self, text, words_indices, start_idx):
         """Return a list of next words_indices after the input index."""

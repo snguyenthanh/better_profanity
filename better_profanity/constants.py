@@ -6,7 +6,6 @@ from string import ascii_letters, digits
 
 from .utils import get_complete_path_of_file
 
-
 ALLOWED_CHARACTERS = set(ascii_letters)
 ALLOWED_CHARACTERS.update(set(digits))
 ALLOWED_CHARACTERS.update({"@", "$", "*", '"', "'"})
