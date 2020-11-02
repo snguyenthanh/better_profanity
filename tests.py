@@ -16,8 +16,7 @@ class ProfanityTest(unittest.TestCase):
         self.assertTrue(profane)
 
     def test_leaves_paragraphs_untouched(self):
-        innocent_text = """If you prick us do we not bleed?
-                        If you tickle us do we not laugh?
+        innocent_text = """If you tickle us do we not laugh?
                         If you poison us do we not die?
                         And if you wrong us shall we not revenge?"""
         censored_text = profanity.censor(innocent_text)
