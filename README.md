@@ -12,7 +12,7 @@ Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben F
 It supports [modified spellings](https://en.wikipedia.org/wiki/Leet) (such as `p0rn`, `h4NDjob`, `handj0b` and `b*tCh`).
 
 ## Requirements
-This package only works with `Python 3`.
+This package works with `Python 3.4+` and `PyPy3`.
 
 ## Installation
 ```
@@ -26,11 +26,6 @@ Only Unicode characters from categories `Ll`, `Lu`, `Mc` and `Mn` are added. Mor
 [unicode category link]: https://en.wikipedia.org/wiki/Template:General_Category_(Unicode)
 
 Not all languages are supported yet, such as *Chinese*.
-
-## Wordlist
-Most of the words in the default [wordlist](./better_profanity/profanity_wordlist.txt) are referred from [Full List of Bad Words and Top Swear Words Banned by Google](https://github.com/RobertJGabriel/Google-profanity-words).
-
-The wordlist contains a total of __181,590 words__, including 320 words from the default [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) and their variants by modified spellings.
 
 ## Usage
 
@@ -194,6 +189,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Special thanks to
 - [Andrew Grinevich](https://github.com/Derfirm) - Add support for Unicode characters.
-
+- [Jaclyn Brockschmidt](https://github.com/jcbrockschmidt) - Optimize string comparison.
 ## Acknowledgments
 - [Ben Friedland](https://github.com/ben174) - For the inspiring package [profanity](https://github.com/ben174/profanity).
