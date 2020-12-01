@@ -118,6 +118,22 @@ class ProfanityTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             Profanity(False)
 
+    def test_separators(self):
+        bad_words = (
+            "a s s",
+            "b oo b",
+            "will y",
+            "g onads",
+            "c u n i l i n g u s",
+            "b    o    o    b",
+            "n        a z   i",
+        )
+        separators = (" ", "_", "-", ".", ",")
+        for sep in separators:
+            for bad_word in bad_words:
+                bad_word_with_sep = bad_word.replace(" ", sep)
+                self.assertEqual(profanity.censor(bad_word_with_sep), "****")
+
 
 class ProfanityUnicodeTestRussian(unittest.TestCase):
     def setUp(self):
