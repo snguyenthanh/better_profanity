@@ -1,0 +1,36 @@
+# Benchmarking `better_profanity`
+
+This directory provides code for benchmarking the memory usage and speed of `better_profanity`.
+
+## Setup
+
+Follow the **Installation** instructions for `better_profanity` to ensure the version you intend to benchmark is installed.
+
+## Usage
+
+### Benchmark memory usage
+
+To perform a basic test run
+
+```
+python scripts/memory.py
+```
+
+To test the memory usage when using a particular word list run
+
+```
+python scripts/memory.py <WORDLIST>
+```
+
+### Benchmark speed
+
+To test the speed of text censoring against a dataset of paragraphs run
+
+```
+python scripts/paragraphs.py
+```
+
+## Limitations
+
+1. Memory usage reported by `memory.py` may vary slightly between runs. Run `memory.py` several times and compute an average for a more accurate memory benchmark.
+2. The dataset used by `paragraphs.py` may not be valid for all versions of `better_profanity`. If some words contained in the default word list are removed, some paragraphs text may not be censored as expected.
