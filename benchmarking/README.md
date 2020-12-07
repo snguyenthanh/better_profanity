@@ -6,6 +6,12 @@ This directory provides code for benchmarking the memory usage and speed of `bet
 
 Follow the **Installation** instructions for `better_profanity` to ensure the version you intend to benchmark is installed.
 
+Install additional dependencies by running
+
+```
+pip install -r requirements.txt
+```
+
 ## Usage
 
 ### Benchmark memory usage
