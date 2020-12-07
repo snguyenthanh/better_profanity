@@ -39,4 +39,4 @@ python scripts/paragraphs.py
 ## Limitations
 
 1. Memory usage reported by `memory.py` may vary slightly between runs. Run `memory.py` several times and compute an average for a more accurate memory benchmark.
-2. The dataset used by `paragraphs.py` may not be valid for all versions of `better_profanity`. If some words contained in the default word list are removed, some paragraphs text may not be censored as expected.
+2. The dataset used by `paragraphs.py` may not be valid for all versions of `better_profanity`. If some words contained in the default word list are removed, some paragraphs' text may not be censored as expected.
