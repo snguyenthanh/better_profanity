@@ -120,6 +120,11 @@ class ProfanityTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             Profanity(False)
 
+    def test_punctuation(self):
+        bad_text = "Holy shit! Oh fuck, damn. What the hell? Shut up, asshole..."
+        censored_text = "Holy ****! Oh ****, ****. What the ****? Shut up, ****..."
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
     def test_all_default_words(self):
         """Tests that every word in the default word list is censored"""
         wordlist_path = os.path.join(
