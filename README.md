@@ -6,6 +6,7 @@
 ![python](https://img.shields.io/badge/python-3-blue.svg)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=popout)](https://github.com/snguyenthanh/better_profanity/blob/master/LICENSE)
 
+> Currently there is a [performance issue with the latest version (0.7.0)](https://github.com/snguyenthanh/better_profanity/issues/19). It is recommended to use the [last stable version 0.6.1](https://pypi.org/project/better-profanity/0.6.1/).
 
 Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben Friedland](https://github.com/ben174), this library is significantly faster than the original one, by using string comparison instead of regex.
 
