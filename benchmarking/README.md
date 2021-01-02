@@ -16,16 +16,16 @@ pip install -r requirements.txt
 
 ### Benchmark memory usage
 
-To perform a basic test run
+To test the memory usage of a profanity filter using the default word list run
 
 ```
-python scripts/memory.py
+python scripts/filter_memory.py
 ```
 
 To test the memory usage when using a particular word list run
 
 ```
-python scripts/memory.py <WORDLIST>
+python scripts/filter_memory.py <WORDLIST>
 ```
 
 ### Benchmark speed
