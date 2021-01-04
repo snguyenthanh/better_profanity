@@ -13,7 +13,7 @@ Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben F
 It supports [modified spellings](https://en.wikipedia.org/wiki/Leet) (such as `p0rn`, `h4NDjob`, `handj0b` and `b*tCh`).
 
 ## Requirements
-This package works with `Python 3.4+` and `PyPy3`.
+This package works with `Python 3.5+` and `PyPy3`.
 
 ## Installation
 ```
