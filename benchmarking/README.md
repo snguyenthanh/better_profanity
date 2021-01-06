@@ -36,6 +36,8 @@ To test the speed of text censoring against a dataset of paragraphs run
 python scripts/paragraphs.py
 ```
 
+Note that this script uses `pytest` and `pytest-benchmark`. If you run the command via `pytest scripts/paragraphs.py` you will have more control over the benchmarking procedures. Read up on [`pytest-benchmark`'s command-line options](https://pytest-benchmark.readthedocs.io/en/latest/usage.html#commandline-options) for more details.
+
 ## Limitations
 
 1. Memory usage reported by `memory.py` may vary slightly between runs. Run `memory.py` several times and compute an average for a more accurate memory benchmark.
