@@ -54,7 +54,7 @@ class Profanity:
 
     ## PUBLIC ##
 
-    def censor(self, text, censor_char="*", middle_only=False):
+    def censor(self, text, censor_char="*", middle_only=False, get_censored_words=False):
         """Replace the swear words in the text with `censor_char`."""
 
         if not isinstance(text, str):
@@ -64,7 +64,7 @@ class Profanity:
 
         if not self.CENSOR_WORDSET:
             self.load_censor_words()
-        return self._hide_swear_words(text, censor_char, middle_only)
+        return self._hide_swear_words(text, censor_char, middle_only, get_censored_words)
 
     def load_censor_words_from_file(self, filename, **kwargs):
         words = read_wordlist(filename)
@@ -146,13 +146,14 @@ class Profanity:
                 words_indices += self._get_next_words(text, words_indices[-1][1], 1)
         return words_indices
 
-    def _hide_swear_words(self, text, censor_char, middle_only=False):
+    def _hide_swear_words(self, text, censor_char, middle_only=False, get_censored_words=False):
         """Replace the swear words with censor characters."""
         censored_text = ""
         cur_word = ""
         skip_index = -1
         next_words_indices = []
         start_idx_of_next_word = self._get_start_index_of_next_word(text, 0)
+        censored_words = []
 
         # If there are no words in the text, return the raw text without parsing
         if start_idx_of_next_word >= len(text) - 1:
@@ -186,6 +187,7 @@ class Profanity:
                 cur_word, next_words_indices, self.CENSOR_WORDSET
             )
             if contains_swear_word:
+                censored_words.append(cur_word)
                 if middle_only:
                     cur_word = censor_middle_only(cur_word, censor_char)
                 else:
@@ -196,6 +198,7 @@ class Profanity:
 
             # If the current a swear word
             if cur_word.lower() in self.CENSOR_WORDSET:
+                censored_words.append(cur_word)
                 if middle_only:
                     cur_word = censor_middle_only(cur_word, censor_char)
                 else:
@@ -207,11 +210,15 @@ class Profanity:
         # Final check
         if cur_word != "" and skip_index < len(text) - 1:
             if cur_word.lower() in self.CENSOR_WORDSET:
+                censored_words.append(cur_word)
                 if middle_only:
                     cur_word = censor_middle_only(cur_word, censor_char)
                 else:
                     cur_word = get_replacement_for_swear_word(censor_char)
             censored_text += cur_word
+
+        if get_censored_words:
+            return censored_text, censored_words
         return censored_text
 
     def _get_start_index_of_next_word(self, text, start_idx):
