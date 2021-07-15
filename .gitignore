@@ -2,3 +2,5 @@
 better_profanity.egg-info/
 build/
 dist/
+
+env/
