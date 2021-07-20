@@ -8,7 +8,7 @@ from .utils import (
     get_complete_path_of_file,
     get_replacement_for_swear_word,
     read_wordlist,
-    censor_middle_only
+    censor_middle_only,
 )
 from .varying_string import VaryingString
 
@@ -74,7 +74,7 @@ class Profanity:
 
         if not self.CENSOR_WORDSET:
             self.load_censor_words()
-        _, censored_words = self._hide_swear_words(text, '*', get_censored_words=True)
+        _, censored_words = self._hide_swear_words(text, "*", get_censored_words=True)
         return censored_words
 
     def load_censor_words_from_file(self, filename, **kwargs):
@@ -157,7 +157,9 @@ class Profanity:
                 words_indices += self._get_next_words(text, words_indices[-1][1], 1)
         return words_indices
 
-    def _hide_swear_words(self, text, censor_char, middle_only=False, get_censored_words=False):
+    def _hide_swear_words(
+        self, text, censor_char, middle_only=False, get_censored_words=False
+    ):
         """Replace the swear words with censor characters."""
         censored_text = ""
         cur_word = ""

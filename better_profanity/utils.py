@@ -24,8 +24,10 @@ def get_replacement_for_swear_word(censor_char, char_amount=4):
 
 def censor_middle_only(word, censor_char):
     if len(word) <= 2:
-        return '**'
-    return word[0] + get_replacement_for_swear_word(censor_char, len(word)-2) + word[-1]
+        return "**"
+    return (
+        word[0] + get_replacement_for_swear_word(censor_char, len(word) - 2) + word[-1]
+    )
 
 
 def any_next_words_form_swear_word(cur_word, words_indices, censor_words):
