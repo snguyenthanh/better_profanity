@@ -191,21 +191,22 @@ class Profanity:
 
             # Iterate the next words combined with the current one
             # to check if it forms a swear word
-            next_words_indices = self._update_next_words_indices(
-                text, next_words_indices, index
-            )
-            contains_swear_word, end_index = any_next_words_form_swear_word(
-                cur_word, next_words_indices, self.CENSOR_WORDSET
-            )
-            if contains_swear_word:
-                censored_words.append(cur_word)
-                if middle_only:
-                    cur_word = censor_middle_only(cur_word, censor_char)
-                else:
-                    cur_word = get_replacement_for_swear_word(censor_char)
-                skip_index = end_index
-                char = ""
-                next_words_indices = []
+            if not (get_censored_words or middle_only):
+                next_words_indices = self._update_next_words_indices(
+                    text, next_words_indices, index
+                )
+                contains_swear_word, end_index = any_next_words_form_swear_word(
+                    cur_word, next_words_indices, self.CENSOR_WORDSET
+                )
+                if contains_swear_word:
+                    censored_words.append(cur_word)
+                    if middle_only:
+                        cur_word = censor_middle_only(cur_word, censor_char)
+                    else:
+                        cur_word = get_replacement_for_swear_word(censor_char)
+                    skip_index = end_index
+                    char = ""
+                    next_words_indices = []
 
             # If the current a swear word
             if cur_word.lower() in self.CENSOR_WORDSET:
