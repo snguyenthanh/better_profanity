@@ -54,7 +54,7 @@ class Profanity:
 
     ## PUBLIC ##
 
-    def censor(self, text, censor_char="*", middle_only=False, get_censored_words=False):
+    def censor(self, text, censor_char="*", middle_only=False):
         """Replace the swear words in the text with `censor_char`."""
 
         if not isinstance(text, str):
@@ -64,7 +64,18 @@ class Profanity:
 
         if not self.CENSOR_WORDSET:
             self.load_censor_words()
-        return self._hide_swear_words(text, censor_char, middle_only, get_censored_words)
+        return self._hide_swear_words(text, censor_char, middle_only)
+
+    def get_censored_words(self, text):
+        """Only return the list of censored words."""
+
+        if not isinstance(text, str):
+            text = str(text)
+
+        if not self.CENSOR_WORDSET:
+            self.load_censor_words()
+        _, censored_words = self._hide_swear_words(text, '*', get_censored_words=True)
+        return censored_words
 
     def load_censor_words_from_file(self, filename, **kwargs):
         words = read_wordlist(filename)
