@@ -18,8 +18,8 @@ def read_wordlist(filename: str):
                 yield row
 
 
-def get_replacement_for_swear_word(censor_char, n=4):
-    return censor_char * n
+def get_replacement_for_swear_word(censor_char, char_amount=4):
+    return censor_char * char_amount
 
 
 def censor_middle_only(word, censor_char):
