@@ -83,6 +83,20 @@ class ProfanityTest(unittest.TestCase):
         clean_text = "Hi there"
         self.assertEqual(profanity.censor(clean_text), clean_text)
 
+    def test_get_censored_words(self):
+        bad_text = "Dude, I hate shit. Fuck bullshit."
+        self.assertEqual(
+            profanity.get_censored_words(bad_text),
+            ['shit', 'Fuck', 'bullshit']
+        )
+        
+    def test_censorship_middle_only(self):
+        bad_text = "Dude, I hate shit. Fuck bullshit."
+        self.assertEqual(
+            profanity.censor(bad_text, middle_only=True),
+            "Dude, I hate s**t. F**k b******t."
+        )
+
     def test_custom_wordlist(self):
         custom_badwords = ["happy", "jolly", "merry"]
         profanity.load_censor_words(custom_badwords)
