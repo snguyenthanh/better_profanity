@@ -20,7 +20,7 @@ This package works with `Python 3.4+` and `PyPy3`.
 ## Installation
 
 ```sh
-$ pip3 install better_profanity
+pip3 install better_profanity
 ```
 
 ## Unicode characters
@@ -190,7 +190,7 @@ profanity.censor('jerkk off')
 ## Testing
 
 ```sh
-$ python3 tests.py
+python3 tests.py
 ```
 
 ## Contributing
