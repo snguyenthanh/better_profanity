@@ -8,7 +8,7 @@ Follow the **Installation** instructions for `better_profanity` to ensure the ve
 
 Install additional dependencies by running
 
-```
+```sh
 pip install -r requirements.txt
 ```
 
@@ -18,13 +18,13 @@ pip install -r requirements.txt
 
 To test the memory usage of a profanity filter using the default word list run
 
-```
+```sh
 python scripts/filter_memory.py
 ```
 
 To test the memory usage when using a particular word list run
 
-```
+```sh
 python scripts/filter_memory.py <WORDLIST>
 ```
 
@@ -32,7 +32,7 @@ python scripts/filter_memory.py <WORDLIST>
 
 To test the speed of text censoring against a dataset of paragraphs run
 
-```
+```sh
 python scripts/paragraphs.py
 ```
 
