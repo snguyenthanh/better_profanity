@@ -1,4 +1,5 @@
 # better_profanity
+
 *Blazingly fast cleaning swear words (and their leetspeak) in strings*
 
 [![release](https://img.shields.io/badge/dynamic/json.svg?label=release&url=https%3A%2F%2Fpypi.org%2Fpypi%2Fbetter-profanity%2Fjson&query=%24.info.version&colorB=blue)](https://github.com/snguyenthanh/better_profanity/releases/latest)
@@ -13,11 +14,17 @@ Inspired from package [profanity](https://github.com/ben174/profanity) of [Ben F
 It supports [modified spellings](https://en.wikipedia.org/wiki/Leet) (such as `p0rn`, `h4NDjob`, `handj0b` and `b*tCh`).
 
 ## Requirements
+<<<<<<< HEAD
 This package works with `Python 3.5+` and `PyPy3`.
+=======
+
+This package works with `Python 3.4+` and `PyPy3`.
+>>>>>>> 3b6fe62f5b97be9884496901f3732489f880c848
 
 ## Installation
-```
-$ pip install better_profanity
+
+```sh
+pip3 install better_profanity
 ```
 
 ## Unicode characters
@@ -30,7 +37,7 @@ Not all languages are supported yet, such as *Chinese*.
 
 ## Usage
 
-```
+```python
 from better_profanity import profanity
 
 if __name__ == "__main__":
@@ -44,7 +51,7 @@ if __name__ == "__main__":
 
 All modified spellings of words in [profanity_wordlist.txt](./better_profanity/profanity_wordlist.txt) will be generated. For example, the word `handjob` would be loaded into:
 
-```
+```python
 'handjob', 'handj*b', 'handj0b', 'handj@b', 'h@ndjob', 'h@ndj*b', 'h@ndj0b', 'h@ndj@b',
 'h*ndjob', 'h*ndj*b', 'h*ndj0b', 'h*ndj@b', 'h4ndjob', 'h4ndj*b', 'h4ndj0b', 'h4ndj@b'
 ```
@@ -52,9 +59,10 @@ All modified spellings of words in [profanity_wordlist.txt](./better_profanity/p
 The full mapping of the library can be found in [profanity.py](./better_profanity/better_profanity.py#L18-L26).
 
 ### 1. Censor swear words from a text
+
 By default, `profanity` replaces each swear words with 4 asterisks `****`.
 
-```
+```python
 from better_profanity import profanity
 
 if __name__ == "__main__":
@@ -66,9 +74,10 @@ if __name__ == "__main__":
 ```
 
 ### 2. Censor doesn't care about word dividers
+
 The function `.censor()` also hide words separated not just by an empty space ` ` but also other dividers, such as `_`, `,` and `.`. Except for `@, $, *, ", '`.
 
-```
+```python
 from better_profanity import profanity
 
 if __name__ == "__main__":
@@ -80,9 +89,10 @@ if __name__ == "__main__":
 ```
 
 ### 3. Censor swear words with custom character
+
 4 instances of the character in second parameter in `.censor()` will be used to replace the swear words.
 
-```
+```python
 from better_profanity import profanity
 
 if __name__ == "__main__":
@@ -94,9 +104,10 @@ if __name__ == "__main__":
 ```
 
 ### 4. Check if the string contains any swear words
+
 Function `.contains_profanity()` return `True` if any words in the given string has a word existing in the wordlist.
 
-```
+```python
 from better_profanity import profanity
 
 if __name__ == "__main__":
@@ -109,10 +120,11 @@ if __name__ == "__main__":
 ### 5. Censor swear words with a custom wordlist
 
 #### 5.1. Wordlist as a `List`
+
 Function `load_censor_words` takes a `List` of strings as censored words.
 The provided list will replace the default wordlist.
 
-```
+```python
 from better_profanity import profanity
 
 if __name__ == "__main__":
@@ -124,9 +136,10 @@ if __name__ == "__main__":
 ```
 
 #### 5.2. Wordlist as a file
+
 Function `load_censor_words_from_file takes a filename, which is a text file and each word is separated by lines.
 
-```
+```python
 from better_profanity import profanity
 
 if __name__ == "__main__":
@@ -139,7 +152,7 @@ Function `load_censor_words` and `load_censor_words_from_file` takes a keyword a
 
 It is best used when there are only a few words that you would like to ignore in the wordlist.
 
-```
+```python
 # Use the default wordlist
 profanity.load_censor_words(whitelist_words=['happy', 'merry'])
 
@@ -152,7 +165,8 @@ profanity.load_censor_words_from_file('/path/to/my/project/my_wordlist.txt', whi
 ```
 
 ### 7. Add more censor words
-```
+
+```python
 from better_profanity import profanity
 
 if __name__ == "__main__":
@@ -167,7 +181,7 @@ if __name__ == "__main__":
 
 1. As the library compares each word by characters, the censor could easily be bypassed by adding any character(s) to the word:
 
-```
+```python
 profanity.censor('I just have sexx')
 # returns 'I just have sexx'
 
@@ -178,18 +192,24 @@ profanity.censor('jerkk off')
 2. Any word in [wordlist](https://github.com/snguyenthanh/better_profanity/blob/master/better_profanity/profanity_wordlist.txt) that have non-space separators cannot be recognised, such as `s & m`, and therefore, it won't be filtered out. This problem was raised in [#5](https://github.com/snguyenthanh/better_profanity/issues/5).
 
 ## Testing
-```
-$ python tests.py
+
+```sh
+python3 tests.py
 ```
 
 ## Contributing
+
 Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
+
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Special thanks to
+
 - [Andrew Grinevich](https://github.com/Derfirm) - Add support for Unicode characters.
 - [Jaclyn Brockschmidt](https://github.com/jcbrockschmidt) - Optimize string comparison.
+
 ## Acknowledgments
+
 - [Ben Friedland](https://github.com/ben174) - For the inspiring package [profanity](https://github.com/ben174/profanity).
