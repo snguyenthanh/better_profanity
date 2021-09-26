@@ -10,8 +10,6 @@ matrix:
     - python: 3.8
       env: TOXENV=black
 
-    - python: 3.4
-      env: TOXENV=py34
     - python: 3.5
       env: TOXENV=py35
     - python: 3.6

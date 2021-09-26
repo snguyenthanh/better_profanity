@@ -15,7 +15,7 @@ It supports [modified spellings](https://en.wikipedia.org/wiki/Leet) (such as `p
 
 ## Requirements
 
-This package works with `Python 3.4+` and `PyPy3`.
+This package works with `Python 3.5+` and `PyPy3`.
 
 ## Installation
 
