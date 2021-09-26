@@ -120,6 +120,11 @@ class ProfanityTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             Profanity(False)
 
+    def test_punctuation(self):
+        bad_text = "Holy shit! Oh fuck, damn. What the hell? Shut up, asshole..."
+        censored_text = "Holy ****! Oh ****, ****. What the ****? Shut up, ****..."
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
     def test_all_default_words(self):
         """Tests that every word in the default word list is censored"""
         wordlist_path = os.path.join(
@@ -218,6 +223,40 @@ class ProfanityFileTest(unittest.TestCase):
     def test_init_wordlist_not_found(self):
         with self.assertRaises(FileNotFoundError):
             Profanity("not_found_file.txt")
+
+
+class ProfanityLargeCorpusTest(unittest.TestCase):
+    def setUp(self):
+        self.maxDiff = None
+        # Pre-load CENSOR_WORDSET
+        profanity.load_censor_words()
+
+    def test_0per_paragraph(self):
+        # Paragraph with no profanity.
+        good_text = "Veniam sed do pariatur irure deserunt. Et fugiat sint reprehenderit eiusmod magna. Deserunt occaecat officia eu quis. Velit laborum enim nulla laborum tempor ad. Amet culpa veniam nisi reprehenderit officia, elit ullamco exercitation do, incididunt qui voluptate quis incididunt. Tempor culpa ea amet ipsum, dolore quis proident pariatur. Laboris reprehenderit ad eiusmod proident irure dolor, fugiat qui aute aute et dolor aliqua. Ullamco fugiat deserunt aliqua consequat sit proident consectetur, qui nulla excepteur sit. Occaecat dolor sed occaecat cupidatat labore quis incididunt. Sit ex aute fugiat cupidatat reprehenderit."
+        self.assertEqual(profanity.censor(good_text), good_text)
+        self.assertFalse(profanity.contains_profanity(good_text))
+
+    def test_5per_paragraph(self):
+        # Paragraph with about 5% profanity.
+        bad_text = "G@*k do dolore sunt exercitation do cillum, adipiscing mollit sit qui sit. Nulla ea aliquip sed non, exercitation in officia exercitation sed. Velit aliquip eiusmod ut est ad, ullamco ex veniam aliqua exercitation eiusmod excepteur, minim sint aliquip adipiscing sit. Quis cupidatat nulla laboris sit ex, eiusmod aliquip labore $hagg3r labore duis. Amet ut excepteur fugiat tempor exercitation ipsum. Ipsum nulla commodo aliqua veniam sit consequat aliqua, nostrud exercitation deserunt ut dolore adipiscing duis et. Et officia elit occaecat pariatur sed. G*dd*mn*d labore deserunt ad. Nostrud non non ea irure, ex cupidatat fugiat do nostrud enim veniam. Sint consequat consectetur in exercitation, dolore occaecat aute sed."
+        censored_text = "**** do dolore sunt exercitation do cillum, adipiscing mollit sit qui sit. Nulla ea aliquip sed non, exercitation in officia exercitation sed. Velit aliquip eiusmod ut est ad, ullamco ex veniam aliqua exercitation eiusmod excepteur, minim sint aliquip adipiscing sit. Quis cupidatat nulla laboris sit ex, eiusmod aliquip labore **** labore duis. Amet ut excepteur fugiat tempor exercitation ipsum. Ipsum nulla commodo aliqua veniam sit consequat aliqua, nostrud exercitation deserunt ut dolore adipiscing duis et. Et officia elit occaecat pariatur sed. **** labore deserunt ad. Nostrud non non ea irure, ex cupidatat fugiat do nostrud enim veniam. Sint consequat consectetur in exercitation, dolore occaecat aute sed."
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+        self.assertTrue(profanity.contains_profanity(bad_text))
+
+    def test_50per_paragraph(self):
+        # Paragraph with about 50% profanity.
+        bad_text = "Exercitation g@ngbangs quis mv7h@ h4ndjob aliqua. T**7 sit enim esse 7e3z ph*kk3d. Adipiscing f*cknvt quis nisi. Culpa 0p*@7* aliqua sunt laborum br**s7s, nisi dlckh3ad cillum lorem pariatur. Laborum ex k@ndvm5 mollit pariatur 571ffy g3y. Amet g3y ipsum $h*t7lng esse lu$ty laboris. Prick duis pariatur d4mn aute p*5sing minim. Incididunt dolore negro r31ch commodo feck3r 1vs7 p*cker. Tempor p*nk@ nisi elit, quis h*rdcor*$ex nobh*4d p*s$y$ thug d1nk phvck, et ipsum culpa f*dgep@ck3r fvckt@rd k@*ch3$ 1ab**."
+        censored_text = "Exercitation **** quis **** **** aliqua. **** sit enim esse **** ****. Adipiscing **** quis nisi. Culpa **** aliqua sunt laborum ****, nisi **** cillum lorem pariatur. Laborum ex **** mollit pariatur **** ****. Amet **** ipsum **** esse **** laboris. **** duis pariatur **** aute **** minim. Incididunt dolore **** **** commodo **** **** ****. Tempor **** nisi elit, quis **** **** **** **** **** ****, et ipsum culpa **** **** **** ****."
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+        self.assertTrue(profanity.contains_profanity(bad_text))
+
+    def test_100per_paragraph(self):
+        # Paragraph with only profanity.
+        bad_text = "C@ck5 j1z p*$5e cr0tch u*y**r n@d 5tfu p*5$*ng, g@nj4 m*nstr**71on fvkwhit f1ngerfucked f*ckwi7 f*kker st1ffy h@mo*r@7*c. Fuck7@rd 2 gir1$ 1 cvp 5hit 7*bglr1 en1*rg3ment perv3r5i*n. Fuckh3ad g*ddam r*mp f*g$ fvcknugge7 d@gg**57y13. P*wn 1*zzy f*t4n*ry m*thaf*ck*r. Wanky 5tupid bltchin bvc37a, fuckup pot $h17f*ck*r f*s7f*ck3d f1st3d, mv7h*rfvcker stf* *jacu1*te thre*$0m* dlck. H@w70mvrd*p phuk5 w@nk*r clpa fuk*r 5h*7* c0cks, c*n7lick*r k14n *rr5e kumming."
+        censored_text = "**** **** **** **** **** **** **** ****, **** **** **** **** **** **** **** ****. **** **** **** **** **** ****. **** **** **** **** **** ****. **** **** **** ****. **** **** **** ****, **** **** **** **** ****, **** **** **** **** ****. **** **** **** **** **** **** ****, **** **** **** ****."
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+        self.assertTrue(profanity.contains_profanity(bad_text))
 
 
 if __name__ == "__main__":
