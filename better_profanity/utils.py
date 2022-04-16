@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os.path
+import random
 
 
 def get_complete_path_of_file(filename):
@@ -17,9 +18,33 @@ def read_wordlist(filename: str):
             if row != "":
                 yield row
 
+def politePictures():
+     
+    emojiAliases = [
+        ":joy:",
+        ":sleeping:",
+        ":innocent:",
+        ":revolving_hearts:",
+        ":v:",
+        ":princess:",
+        ":tongue:",
+        ":baby_chick:",
+        ":waxing_gibbous_moon:",
+        ":confetti_ball:",
+        ":bath:",
+        ":8ball:",
+        ":baby_symbol:",
+        ":signal_strength:",
+        ":see_no_evil:",
+        ":hear_no_evil:",
+        ":speak_no_evil:",
+    ]
+    return emojiAliases
+
 
 def get_replacement_for_swear_word(censor_char):
-    return censor_char
+
+    return random.choice(politePictures())
 
 
 def any_next_words_form_swear_word(cur_word, words_indices, censor_words):
