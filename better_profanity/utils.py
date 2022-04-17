@@ -38,6 +38,21 @@ def politePictures():
         ":see_no_evil:",
         ":hear_no_evil:",
         ":speak_no_evil:",
+        ":dromedary_camel:",
+        ":volcano:",
+        ":guardsman:",
+        ":lips:",
+        ":snowman:",
+        ":honeybee:",
+        ":cherry_blossom:",
+        ":hibiscus:",
+        ":dvd:",
+        ":vhs:",
+        ":moneybag:",
+        ":bikini:",
+        ":briefcase:",
+        ":moyai:",
+        ":non-potable_water:",
     ]
     return emojiAliases
 
