@@ -835,3 +835,6 @@ yaoi
 yury
 suicide
 suicidal
+homicide
+homophobic
+homophobia
