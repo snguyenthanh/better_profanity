@@ -838,3 +838,5 @@ suicidal
 homicide
 homophobic
 homophobia
+NSFW
+not safe for work
