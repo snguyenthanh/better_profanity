@@ -67,7 +67,16 @@ class ProfanityTest(unittest.TestCase):
         bad_text = "That wh0re gave m3 a very good H@nD j0b."
         censored_text = "That **** gave m3 a very good ****."
         self.assertEqual(profanity.censor(bad_text), censored_text)
-
+    
+    def test_obstructing_letter_1(self):
+        bad_text = "Afoobar"
+        censored_text = "A****"
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+    def test_obstructing_letter_multible(self):
+        bad_text = "AAAAAAAAAfoobar"
+        censored_text = "AAAAAAAAA****"
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+  
     def test_censorship_empty_text(self):
         empty_text = ""
         self.assertEqual(profanity.censor(empty_text), empty_text)

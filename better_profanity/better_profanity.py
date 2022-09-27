@@ -197,10 +197,31 @@ class Profanity:
             censored_text += cur_word + char
             cur_word = ""
 
+                    
+            # Check if removeing letters from behind makes a swear word
+          
+            for idx, chr in iter(enumerate(cur_word)):
+
+              if cur_word[idx-1:].lower() in self.CENSOR_WORDSET:
+                
+                cur_word.replace(cur_word[:idx-1], get_replacement_for_swear_word(censor_char))
+                
+                break
+                
         # Final check
         if cur_word != "" and skip_index < len(text) - 1:
             if cur_word.lower() in self.CENSOR_WORDSET:
                 cur_word = get_replacement_for_swear_word(censor_char)
+
+                      
+            for idx, chr in iter(enumerate(cur_word)):
+
+              if cur_word[idx:].lower() in self.CENSOR_WORDSET:
+        
+                cur_word = cur_word[:idx] + get_replacement_for_swear_word(censor_char)
+                
+                break
+              
             censored_text += cur_word
         return censored_text
 
