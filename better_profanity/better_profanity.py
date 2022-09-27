@@ -94,7 +94,7 @@ class Profanity:
 
     ## PRIVATE ##
 
-    def _populate_words_to_wordset(self, words, *, whitelist_words=None,):
+    def _populate_words_to_wordset(self, words, *, whitelist_words=None):
         if whitelist_words is not None and not isinstance(
             whitelist_words, (list, set, tuple)
         ):
