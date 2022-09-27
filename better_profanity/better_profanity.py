@@ -199,12 +199,11 @@ class Profanity:
 
                     
             # Check if removeing letters from behind makes a swear word
-          
             for idx, chr in iter(enumerate(cur_word)):
 
-              if cur_word[idx-1:].lower() in self.CENSOR_WORDSET:
-                
-                cur_word.replace(cur_word[:idx-1], get_replacement_for_swear_word(censor_char))
+              if cur_word[idx:].lower() in self.CENSOR_WORDSET:
+        
+                cur_word = cur_word[:idx] + get_replacement_for_swear_word(censor_char)
                 
                 break
                 
