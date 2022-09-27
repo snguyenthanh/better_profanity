@@ -2,7 +2,7 @@
 
 from collections.abc import Iterable
 
-from .constants import ALLOWED_CHARACTERS
+from .constants import ALLOWED_CHARACTERS, ALLOWED_CONTANING_PROFANITY
 from .utils import (
     any_next_words_form_swear_word,
     get_complete_path_of_file,
@@ -13,7 +13,7 @@ from .varying_string import VaryingString
 
 
 class Profanity:
-    def __init__(self, words=None):
+    def __init__(self, words=None, whitelist=None):
         """
         Args:
             words (Iterable/str): Collection of words or file path for a list of
@@ -43,6 +43,11 @@ class Profanity:
         }
         self.MAX_NUMBER_COMBINATIONS = 1
         self.ALLOWED_CHARACTERS = ALLOWED_CHARACTERS
+       
+        self.whitelist = whitelist or set([])
+        self.whitelist = set(self.whitelist)
+        self.whitelist.update(ALLOWED_CONTANING_PROFANITY)
+      
         self._default_wordlist_filename = get_complete_path_of_file(
             "profanity_wordlist.txt"
         )
@@ -89,7 +94,7 @@ class Profanity:
 
     ## PRIVATE ##
 
-    def _populate_words_to_wordset(self, words, *, whitelist_words=None):
+    def _populate_words_to_wordset(self, words, *, whitelist_words=None,):
         if whitelist_words is not None and not isinstance(
             whitelist_words, (list, set, tuple)
         ):
@@ -98,7 +103,9 @@ class Profanity:
             )
 
         # Validation
-        whitelist_words = whitelist_words or []
+        whitelist_words = whitelist_words or set([])
+        self.whitelist.update(whitelist_words)
+        
         for index, word in enumerate(whitelist_words):
             if not isinstance(word, str):
                 raise ValueError(
@@ -176,11 +183,15 @@ class Profanity:
                 cur_word = ""
                 continue
 
+            
             # Iterate the next words combined with the current one
             # to check if it forms a swear word
             next_words_indices = self._update_next_words_indices(
                 text, next_words_indices, index
             )
+
+            cur_word = self._check_for_profanity_within(cur_word, censor_char, next_words_indices)
+          
             contains_swear_word, end_index = any_next_words_form_swear_word(
                 cur_word, next_words_indices, self.CENSOR_WORDSET
             )
@@ -194,36 +205,50 @@ class Profanity:
             if cur_word.lower() in self.CENSOR_WORDSET:
                 cur_word = get_replacement_for_swear_word(censor_char)
 
+            
+          
             censored_text += cur_word + char
             cur_word = ""
+            
 
-                    
-            # Check if removeing letters from behind makes a swear word
-            for idx, chr in iter(enumerate(cur_word)):
 
-              if cur_word[idx:].lower() in self.CENSOR_WORDSET:
-        
-                cur_word = cur_word[:idx] + get_replacement_for_swear_word(censor_char)
-                
-                break
-                
+                  
         # Final check
         if cur_word != "" and skip_index < len(text) - 1:
             if cur_word.lower() in self.CENSOR_WORDSET:
                 cur_word = get_replacement_for_swear_word(censor_char)
 
                       
-            for idx, chr in iter(enumerate(cur_word)):
-
-              if cur_word[idx:].lower() in self.CENSOR_WORDSET:
-        
-                cur_word = cur_word[:idx] + get_replacement_for_swear_word(censor_char)
-                
-                break
-              
+            # Check if removeing letters from behind makes a swear word
+            cur_word = self._check_for_profanity_within(cur_word, censor_char, [])
             censored_text += cur_word
+          
         return censored_text
 
+    def _check_for_profanity_within(self, cur_word, censor_char, next_words_indices):
+      """Checks if there is profanity within """
+      
+      if cur_word in self.CENSOR_WORDSET:
+        return cur_word
+      
+      if not cur_word.lower() in self.whitelist:
+        for idx, chr in iter(enumerate(cur_word)):
+          if cur_word[idx:].lower() in self.CENSOR_WORDSET:
+            cur_word = cur_word[:idx] + get_replacement_for_swear_word(censor_char)
+            
+            break
+
+        cur_check_word = cur_word + 'a'
+        
+        for idx, chr in iter(enumerate(cur_word)):
+          if cur_check_word.lower() in self.CENSOR_WORDSET:
+            cur_word = get_replacement_for_swear_word(censor_char) + cur_word[len(cur_check_word):]
+            break
+            
+          cur_check_word = cur_check_word[:-1]
+      
+      return cur_word
+  
     def _get_start_index_of_next_word(self, text, start_idx):
         """Return the index of the first character of the next word in the given text."""
         start_idx_of_next_word = len(text)

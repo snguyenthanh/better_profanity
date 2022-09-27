@@ -72,11 +72,22 @@ class ProfanityTest(unittest.TestCase):
         bad_text = "Afoobar"
         censored_text = "A****"
         self.assertEqual(profanity.censor(bad_text), censored_text)
+    
     def test_obstructing_letter_multible(self):
-        bad_text = "AAAAAAAAAfoobar"
+        bad_text      = "AAAAAAAAAfoobar"
         censored_text = "AAAAAAAAA****"
         self.assertEqual(profanity.censor(bad_text), censored_text)
-  
+
+    def test_end_letter_obstructing(self):
+        bad_text      = "foobarAAAAAAAAA"
+        censored_text = "****AAAAAAAAA"
+        self.assertEqual(profanity.censor(bad_text), censored_text)
+
+    def test_clean_word_that_contains(self):
+        clean_text = "night"
+        self.assertEqual(profanity.censor(clean_text), clean_text)
+
+    
     def test_censorship_empty_text(self):
         empty_text = ""
         self.assertEqual(profanity.censor(empty_text), empty_text)
@@ -214,6 +225,7 @@ class ProfanityWhitelistTest(unittest.TestCase):
     def test_whitelist_words(self):
         bad_text = "I have boobs"
         censored_text = "I have ****"
+
         self.assertEqual(profanity.censor(bad_text), censored_text)
 
         # Whitelist the word `boobs`
