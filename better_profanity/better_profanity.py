@@ -190,8 +190,6 @@ class Profanity:
                 text, next_words_indices, index
             )
 
-            cur_word = self._check_for_profanity_within(cur_word, censor_char, next_words_indices)
-          
             contains_swear_word, end_index = any_next_words_form_swear_word(
                 cur_word, next_words_indices, self.CENSOR_WORDSET
             )
