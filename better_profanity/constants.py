@@ -13,3 +13,9 @@ ALLOWED_CHARACTERS.update({"@", "$", "*", '"', "'"})
 # Pre-load the unicode characters
 with open(get_complete_path_of_file("alphabetic_unicode.json"), "r") as json_file:
     ALLOWED_CHARACTERS.update(load(json_file))
+
+
+
+with open(get_complete_path_of_file("contaning_allowed.txt"), "r") as txt_file:
+  ALLOWED_CONTANING_PROFANITY = [a.strip() for a in  txt_file.readlines()]
+  
